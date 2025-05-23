@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PlanetRotator : MonoBehaviour
 {
-    public GameObject rotatorX;
-    public GameObject rotatorZ;
+    public GameObject rotator;
+    public GameObject planetParent;
 
 
     public void Rotate(float x, float y, float rotate_speed)
-    {
-            var w_an = transform.eulerAngles;
-            w_an.z += y * rotate_speed * Time.deltaTime;
-            w_an.x += x * rotate_speed * Time.deltaTime;
-            transform.eulerAngles = w_an;
-}
+    {   Vector3 planetRot = planetParent.transform.eulerAngles;
+        rotator.transform.rotation = Quaternion.Euler(0, 0, 0);
+        planetParent.transform.eulerAngles = planetRot;
+        
+        var rotEulers = rotator.transform.eulerAngles;
+        rotEulers.z += y * rotate_speed * Time.deltaTime;
+        rotEulers.x += x * rotate_speed * Time.deltaTime;
+        rotator.transform.eulerAngles = rotEulers;
+    }
 }

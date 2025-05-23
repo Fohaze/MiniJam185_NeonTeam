@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8357214191846310605}
   - component: {fileID: 1198260997993408959}
   m_Layer: 0
-  m_Name: Icosphere.002
+  m_Name: Planet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 551065380078240513}
+  m_Father: {fileID: 2105583801737341295}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8357214191846310605
 MeshFilter:
@@ -83,38 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &502803112735428452
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 551065380078240513}
-  m_Layer: 0
-  m_Name: RotateZ
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &551065380078240513
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 502803112735428452}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1033339807077801667}
-  m_Father: {fileID: 2105583801737341295}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5770875100088747103
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,8 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a2b629eae47736479ec6d442062fc0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotatorX: {fileID: 6872847155358749516}
-  rotatorZ: {fileID: 502803112735428452}
+  rotator: {fileID: 6872847155358749516}
+  planetParent: {fileID: 412647752765590835}
 --- !u!1 &6734922445082222819
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2105583801737341295}
   m_Layer: 0
-  m_Name: RotateX
+  m_Name: Rotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,7 +244,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 551065380078240513}
+  - {fileID: 1033339807077801667}
   m_Father: {fileID: 6583582054923869925}
   m_LocalEulerAnglesHint: {x: -16.618, y: 0, z: 0}
 --- !u!1 &7218543861752151148

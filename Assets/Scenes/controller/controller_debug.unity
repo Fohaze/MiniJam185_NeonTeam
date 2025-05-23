@@ -1553,10 +1553,10 @@ MonoBehaviour:
   particulesPrefab: {fileID: 1687656698771247197, guid: 2250a0eb78123c94ca7c720c4fefb1e3,
     type: 3}
   start_jump_pos: {x: 0, y: 0, z: 0}
-  jump_hauteur: 2
+  jump_hauteur: 7
   world_center: {fileID: 1662706469}
   planetRotator: {fileID: 1662706470}
-  rotate_speed: 5
+  rotate_speed: -25
 --- !u!95 &1681424926 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b11423662d48a11448ec1e58b4a2f1c2,
