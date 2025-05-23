@@ -7,7 +7,15 @@
             "actions": [
                 {
                     "name": "Directions",
+<<<<<<< HEAD
                     "type": "PassThrough",
+=======
+<<<<<<< HEAD
+                    "type": "Value",
+=======
+                    "type": "PassThrough",
+>>>>>>> origin/character_controller
+>>>>>>> Valakey
                     "id": "55eba57a-e396-44ec-84dd-fbb041eb7c73",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -57,9 +65,32 @@
                     "isPartOfComposite": true
                 },
                 {
+<<<<<<< HEAD
                     "name": "Down",
                     "id": "12643fd3-c3f4-4f2b-b102-b5203ca5284a",
                     "path": "<Keyboard>/z",
+=======
+<<<<<<< HEAD
+                    "name": "Left",
+                    "id": "70b568d3-5599-402c-8a0e-ab0613308202",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "8f9f123e-c8e2-4aea-a4cd-21fa22e9b0b9",
+                    "path": "<Keyboard>/d",
+=======
+                    "name": "Down",
+                    "id": "12643fd3-c3f4-4f2b-b102-b5203ca5284a",
+                    "path": "<Keyboard>/z",
+>>>>>>> origin/character_controller
+>>>>>>> Valakey
                     "interactions": "",
                     "processors": "",
                     "groups": "AlienControl",
