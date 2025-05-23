@@ -21,6 +21,7 @@ public class alien_ctrl : MonoBehaviour
     public Vector3 start_jump_pos;
     public float jump_hauteur = 1f;
     public GameObject world_center;
+    public PlanetRotator planetRotator;
     public float rotate_speed = 5f;
 
 
@@ -123,10 +124,12 @@ public class alien_ctrl : MonoBehaviour
         {
             var moveDir = Quaternion.Euler(0, y_cam, 0) * new Vector3(moveInput.x, 0, moveInput.y);
             //transform.position += moveDir * speed * Time.deltaTime;
-            var w_an = world_center.transform.eulerAngles;
+            /*var w_an = world_center.transform.eulerAngles;
             w_an.z += moveInput.y * rotate_speed * Time.deltaTime;
             w_an.x += moveInput.x * rotate_speed * Time.deltaTime;
             world_center.transform.eulerAngles = w_an;
+            */
+            planetRotator.Rotate(moveInput.x, moveInput.y, rotate_speed);
         }
         anim.SetFloat("speed", mag);
         Update_jump();

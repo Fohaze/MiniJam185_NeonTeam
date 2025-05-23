@@ -26,6 +26,9 @@
         },
         {
             "m_Id": "c308155047134d1bb51b0832cede6753"
+        },
+        {
+            "m_Id": "1dcd86c1700444ac8c00ecf5e03e1206"
         }
     ],
     "m_Keywords": [],
@@ -149,6 +152,9 @@
         },
         {
             "m_Id": "3d525a8161c94ff9876030dffc1a2546"
+        },
+        {
+            "m_Id": "31139175cf824878b7f8a13f7ffc0f1e"
         }
     ],
     "m_GroupDatas": [],
@@ -250,6 +256,20 @@
                     "m_Id": "acfe5f6fdbbb4b2cb27c8259ab9583d4"
                 },
                 "m_SlotId": 2
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "31139175cf824878b7f8a13f7ffc0f1e"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "4f4b8c2bf1e2466ea70d48d87a78cebf"
+                },
+                "m_SlotId": 1
             }
         },
         {
@@ -921,6 +941,9 @@
         },
         {
             "m_Id": "c308155047134d1bb51b0832cede6753"
+        },
+        {
+            "m_Id": "1dcd86c1700444ac8c00ecf5e03e1206"
         }
     ]
 }
@@ -1161,6 +1184,34 @@
         "y": 0.0,
         "z": 0.0,
         "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "1dcd86c1700444ac8c00ecf5e03e1206",
+    "m_Guid": {
+        "m_GuidSerialized": "9cbf9fa8-8404-491d-8ee6-8422a91e44e2"
+    },
+    "m_Name": "WallTextureScale",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "WallTextureScale",
+    "m_DefaultReferenceName": "_WallTextureScale",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.10000000149011612,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 
@@ -1472,6 +1523,42 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "31139175cf824878b7f8a13f7ffc0f1e",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -1559.5789794921875,
+            "y": 869.4102783203125,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "cc5ca1ac2114438093edb09c1fda149a"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "1dcd86c1700444ac8c00ecf5e03e1206"
+    }
 }
 
 {
@@ -2304,7 +2391,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Scale",
     "m_StageCapability": 3,
-    "m_Value": 5.0,
+    "m_Value": 1.0,
     "m_DefaultValue": 10.0,
     "m_Labels": []
 }
@@ -3718,6 +3805,21 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "cc5ca1ac2114438093edb09c1fda149a",
+    "m_Id": 0,
+    "m_DisplayName": "WallTextureScale",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
