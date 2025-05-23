@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Planet
-  m_Shader: {fileID: -6465566751694194690, guid: 1aec06e05b1937440acc61b48cfadd83,
+  m_Name: Planet 1
+  m_Shader: {fileID: -6465566751694194690, guid: 618669cc7719d71479c510bed756bdd2,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

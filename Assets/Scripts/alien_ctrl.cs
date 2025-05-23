@@ -122,7 +122,7 @@ public void OnFootRight()
         // Lit la valeur Vector2 de l’action
         Vector2 inputVector = moveAction.ReadValue<Vector2>();
         // Ici tu peux l’utiliser pour déplacer ton personnage…
-        Debug.Log($"Input move : {inputVector}");
+        //Debug.Log($"Input move : {inputVector}");
         moveInput = inputVector;
 
         var y_cam = cam.transform.eulerAngles.y;
