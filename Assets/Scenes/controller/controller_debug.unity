@@ -38,6 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571385, b: 0.30692253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -325,6 +326,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1632869948}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &324967125 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 412647752765590835, guid: 14ba8c5d3a452604695a638bf9f5e5c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 199655851317220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &324967128 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1033339807077801667, guid: 14ba8c5d3a452604695a638bf9f5e5c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 199655851317220}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,12 +470,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    m_Quality: 3
-    m_FrameInfluence: 0.1
-    m_JitterScale: 1
-    m_MipBias: 0
-    m_VarianceClampScale: 0.9
-    m_ContrastAdaptiveSharpening: 0
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!114 &330585548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,6 +1570,7 @@ MonoBehaviour:
   world_center: {fileID: 1662706469}
   planetRotator: {fileID: 1662706470}
   rotate_speed: -25
+  world: {fileID: 324967125}
 --- !u!95 &1681424926 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b11423662d48a11448ec1e58b4a2f1c2,
@@ -1889,6 +1903,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8611725521076357993, guid: 2250a0eb78123c94ca7c720c4fefb1e3,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611725521076357993, guid: 2250a0eb78123c94ca7c720c4fefb1e3,
+        type: 3}
+      propertyPath: moveWithCustomTransform
+      value: 
+      objectReference: {fileID: 324967128}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

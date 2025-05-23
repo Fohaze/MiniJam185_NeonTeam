@@ -23,6 +23,7 @@ public class alien_ctrl : MonoBehaviour
     public GameObject world_center;
     public PlanetRotator planetRotator;
     public float rotate_speed = 5f;
+    public GameObject world;
 
 
 
@@ -73,19 +74,34 @@ public class alien_ctrl : MonoBehaviour
     }
 
     public void OnFootLeft()
-    {
-        if (foot_l == null || particulesPrefab == null)
-            return;
-        // Instancie le prefab de particules à la position du pied gauche
-        Instantiate(particulesPrefab, foot_l.transform.position, Quaternion.identity);
-    }
-    public void OnFootRight()
-    {
-        if (foot_r == null || particulesPrefab == null)
-            return;
-        // Instancie le prefab de particules à la position du pied droit
-        Instantiate(particulesPrefab, foot_r.transform.position, Quaternion.identity);
-    }
+{
+    if (foot_l == null || particulesPrefab == null)
+        return;
+
+    // Instancie le prefab de particules à la position du pied gauche
+    var instance = Instantiate(particulesPrefab, foot_l.transform.position, Quaternion.identity);
+    var ps = instance.GetComponent<ParticleSystem>();
+
+    // Accès au MainModule pour régler l'espace de simulation
+    var main = ps.main;
+    main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+    main.customSimulationSpace = world.transform;
+}
+
+public void OnFootRight()
+{
+    if (foot_r == null || particulesPrefab == null)
+        return;
+
+    // Instancie le prefab de particules à la position du pied droit
+    var instance = Instantiate(particulesPrefab, foot_r.transform.position, Quaternion.identity);
+    var ps = instance.GetComponent<ParticleSystem>();
+
+    var main = ps.main;
+    main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+    main.customSimulationSpace = world.transform;
+}
+
 
     
 
