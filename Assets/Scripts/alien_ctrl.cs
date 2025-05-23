@@ -20,12 +20,14 @@ public class alien_ctrl : MonoBehaviour
 
     public Vector3 start_jump_pos;
     public float jump_hauteur = 1f;
+    public AnimationCurve jump_curve;
+    public float fall_speed = 1f;
     public GameObject world_center;
     public PlanetRotator planetRotator;
     public float rotate_speed = 5f;
     public GameObject world;
 
-
+    public float jump_time = -1;
 
     private void OnEnable()
     {
@@ -49,23 +51,27 @@ public class alien_ctrl : MonoBehaviour
         // Active l’action de saut
         interactAction.Enable();
 
-
-        
         moveAction.Enable();
     }
 
     void Update_jump()
     {
-        var jump_h = anim.GetFloat("jump_h");
-        if (jump_h == 0f)
+        if(!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.8f))
         {
-            // Si le personnage n'est pas en l'air, on ne fait rien
-            return;
+            transform.position += Vector3.down * fall_speed * Time.deltaTime;
         }
+
+        //var jump_h = anim.GetFloat("jump_h");
+        if(jump_time < 0)
+            return;
+        jump_time += Time.deltaTime;
         var pt = transform.position;
-        pt.y = start_jump_pos.y + jump_h * jump_hauteur;
+        pt.y = start_jump_pos.y + jump_curve.Evaluate(jump_time) * jump_hauteur;
         transform.position = pt;
-        
+        if(jump_time > jump_curve.keys[jump_curve.keys.Length - 1].time)
+        {
+            jump_time = -1;
+        }
     }
 
     public void interact_act()
@@ -115,6 +121,7 @@ public void OnFootRight()
         // Appel de la méthode de saut
         anim.SetTrigger("jump");
         start_jump_pos = transform.position;
+        jump_time = 0f;
     }
 
     private void Update()
@@ -145,11 +152,19 @@ public void OnFootRight()
             w_an.x += moveInput.x * rotate_speed * Time.deltaTime;
             world_center.transform.eulerAngles = w_an;
             */
-            planetRotator.Rotate(moveInput.x, moveInput.y, rotate_speed);
+            if(!Physics.Raycast(transform.position, moveDir, out RaycastHit hit, 1f))
+            {
+                planetRotator.Rotate(moveInput.x, moveInput.y, rotate_speed);
+                Debug.Log("hit Object " + hit.collider.gameObject.name);
+            }
         }
         anim.SetFloat("speed", mag);
-        Update_jump();
         
 
+    }
+
+    void LateUpdate()
+    {
+        Update_jump();
     }
 }
