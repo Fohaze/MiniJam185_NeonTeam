@@ -1,0 +1,102 @@
+{
+    "name": "Alien",
+    "maps": [
+        {
+            "name": "AlienMap",
+            "id": "3a5c560b-6c2a-47ac-b5dd-557f2809107a",
+            "actions": [
+                {
+                    "name": "Directions",
+                    "type": "Button",
+                    "id": "55eba57a-e396-44ec-84dd-fbb041eb7c73",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Sauter",
+                    "type": "Button",
+                    "id": "ebdd13a5-bd50-47ae-b253-6f54f64f4f7e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interagir",
+                    "type": "Button",
+                    "id": "c01c7071-8e9e-4f55-b3de-483fbed567f8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "Avancer/Reculer",
+                    "id": "57108b08-7549-4d9c-b250-62aad23ae503",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "53ae6385-2d68-4379-be53-c30634499215",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "12643fd3-c3f4-4f2b-b102-b5203ca5284a",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0e4c311a-087e-4b50-a0f1-53f4e076f0ce",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Sauter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c126d6b-19b5-458c-b70a-3ec0e7a3f9cd",
+                    "path": "<Keyboard>/#(E)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Interagir",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "AlienControl",
+            "bindingGroup": "AlienControl",
+            "devices": []
+        }
+    ]
+}
