@@ -1,0 +1,4 @@
+repository "MiniJam185@ortman@cloud"
+  path "/"
+    br "/main"
+    co "/main"
