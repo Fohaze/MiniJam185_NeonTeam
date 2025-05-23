@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Directions",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "55eba57a-e396-44ec-84dd-fbb041eb7c73",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Sauter",
@@ -37,7 +37,7 @@
                 {
                     "name": "Avancer/Reculer",
                     "id": "57108b08-7549-4d9c-b250-62aad23ae503",
-                    "path": "1DAxis",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -46,8 +46,19 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "negative",
+                    "name": "Up",
                     "id": "53ae6385-2d68-4379-be53-c30634499215",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "12643fd3-c3f4-4f2b-b102-b5203ca5284a",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -57,9 +68,20 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "positive",
-                    "id": "12643fd3-c3f4-4f2b-b102-b5203ca5284a",
-                    "path": "<Keyboard>/z",
+                    "name": "Left",
+                    "id": "70b568d3-5599-402c-8a0e-ab0613308202",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "AlienControl",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "8f9f123e-c8e2-4aea-a4cd-21fa22e9b0b9",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "AlienControl",
