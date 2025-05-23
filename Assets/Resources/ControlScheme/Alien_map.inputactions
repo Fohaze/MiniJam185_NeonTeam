@@ -1,0 +1,74 @@
+{
+    "name": "Alien_map",
+    "maps": [
+        {
+            "name": "AlienMap",
+            "id": "aa11ec3f-fb65-4bb7-9098-db1a11e6a7ce",
+            "actions": [
+                {
+                    "name": "Directions",
+                    "type": "PassThrough",
+                    "id": "878ad6c6-45f8-4141-8f0e-0077f6bd09ef",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Sauter",
+                    "type": "Button",
+                    "id": "0fecae30-e55d-40c6-8d7d-a47713819b94",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interagir",
+                    "type": "Button",
+                    "id": "53370de6-524f-4b81-b3bc-e03c0a78afb7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1d0279b0-b089-43db-8993-c26d4ae45e04",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22a675f7-a070-4fb4-982e-a1c60eee7cbb",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sauter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1bac2295-f2c2-4983-b27f-49e82b3a4383",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interagir",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

@@ -1208,10 +1208,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1681424923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1be8865f2034d774da17a0dde806c604, type: 3}
+  m_Script: {fileID: 11500000, guid: c3cff1a4865d3a246b2ff45bb2a62c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 71dbd9a4f39bf8e4fbf4d714c3575dd5, type: 3}
+  actions: {fileID: -944628639613478452, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2, type: 3}
   moveInput: {x: 0, y: 0}
   speed: 15
   anim: {fileID: 1681424926}
@@ -1221,7 +1221,7 @@ MonoBehaviour:
   particulesPrefab: {fileID: 1687656698771247197, guid: 2250a0eb78123c94ca7c720c4fefb1e3,
     type: 3}
   start_jump_pos: {x: 0, y: 0, z: 0}
-  jump_hauteur: 1
+  jump_hauteur: 2
 --- !u!95 &1681424926 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b11423662d48a11448ec1e58b4a2f1c2,
