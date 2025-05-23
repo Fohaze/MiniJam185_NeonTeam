@@ -18,14 +18,53 @@ public class alien_ctrl : MonoBehaviour
     public GameObject foot_l, foot_r;
     public GameObject particulesPrefab;
 
+    public Vector3 start_jump_pos;
+    public float jump_hauteur = 1f;
+
     private void OnEnable()
     {
         // Récupère l’ActionMap "basic_move"
-        var map = actions.FindActionMap("basic_move");
+        var map = actions.FindActionMap("AlienMap");
         // Récupère l’Action "move"
-        moveAction = map.FindAction("move");
+        moveAction = map.FindAction("Directions");
         // Active-la pour qu’elle commence à écouter
+        
+        // Récupère le bouton "Sauter"
+        var jumpAction = map.FindAction("Sauter");
+        //link l’action de saut à la méthode jump_action
+        jumpAction.performed += jump_action;
+        // Active l’action de saut
+        jumpAction.Enable();
+
+        // Récupère le bouton "Interagir"
+        var interactAction = map.FindAction("Interagir");
+        //link l’action de saut à la méthode jump_action
+        interactAction.performed += ctx => interact_act();
+        // Active l’action de saut
+        interactAction.Enable();
+
+
+        
         moveAction.Enable();
+    }
+
+    void Update_jump()
+    {
+        var jump_h = anim.GetFloat("jump_h");
+        if (jump_h == 0f)
+        {
+            // Si le personnage n'est pas en l'air, on ne fait rien
+            return;
+        }
+        var pt = transform.position;
+        pt.y = start_jump_pos.y + jump_h * jump_hauteur;
+        transform.position = pt;
+        
+    }
+
+    public void interact_act()
+    {
+        anim.SetTrigger("interact");
     }
 
     public void OnFootLeft()
@@ -48,6 +87,13 @@ public class alien_ctrl : MonoBehaviour
     private void OnDisable()
     {
         moveAction.Disable();
+    }
+
+    public void jump_action(InputAction.CallbackContext context)
+    {
+        // Appel de la méthode de saut
+        anim.SetTrigger("jump");
+        start_jump_pos = transform.position;
     }
 
     private void Update()
@@ -75,6 +121,8 @@ public class alien_ctrl : MonoBehaviour
             transform.position += moveDir * speed * Time.deltaTime;
         }
         anim.SetFloat("speed", mag);
+        Update_jump();
+        
 
     }
 }

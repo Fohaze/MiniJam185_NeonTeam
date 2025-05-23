@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Directions",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "55eba57a-e396-44ec-84dd-fbb041eb7c73",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Sauter",
@@ -48,7 +48,7 @@
                 {
                     "name": "Up",
                     "id": "53ae6385-2d68-4379-be53-c30634499215",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "AlienControl",
@@ -59,7 +59,7 @@
                 {
                     "name": "Down",
                     "id": "12643fd3-c3f4-4f2b-b102-b5203ca5284a",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "AlienControl",
@@ -69,25 +69,36 @@
                 },
                 {
                     "name": "Left",
-                    "id": "70b568d3-5599-402c-8a0e-ab0613308202",
-                    "path": "<Keyboard>/q",
+                    "id": "86f51b1a-535f-4e08-9780-59dd1ac879e1",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "AlienControl",
+                    "groups": "",
                     "action": "Directions",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "Right",
-                    "id": "8f9f123e-c8e2-4aea-a4cd-21fa22e9b0b9",
-                    "path": "<Keyboard>/d",
+                    "id": "f6183e28-7876-4108-9a3a-cc30d85b93fd",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "AlienControl",
+                    "groups": "",
                     "action": "Directions",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "83ce8e30-6678-4be5-a5aa-876c8574db0b",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -102,11 +113,33 @@
                 },
                 {
                     "name": "",
+                    "id": "f14ed109-f474-46d4-9414-07dea322ed4d",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sauter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "4c126d6b-19b5-458c-b70a-3ec0e7a3f9cd",
                     "path": "<Keyboard>/#(E)",
                     "interactions": "",
                     "processors": "",
                     "groups": "AlienControl",
+                    "action": "Interagir",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5b65635-26d2-4a05-9c95-08cd79a03932",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Interagir",
                     "isComposite": false,
                     "isPartOfComposite": false
