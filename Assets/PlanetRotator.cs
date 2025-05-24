@@ -6,32 +6,24 @@ using UnityEngine.InputSystem;
 public class planetRotor : MonoBehaviour
 {
 
-    public InputActionAsset actions;
-    public float speed = 5f;
-    public float rotate_stick = 0f;
-    public GameObject world_center;
+    [SerializeField] private float speed = 5f;
 
-    private void OnEnable()
+    private Alien_map2 controls;
+    private Vector2 lookInput;
+
+    private void Awake()
     {
-        var map = actions.FindActionMap("AlienMap");
-        var interactAction = map.FindAction("dir_x");
-        interactAction.performed += ctx => rotate_stick = ctx.ReadValue<float>();
-        interactAction.Enable();
-
+        controls = new Alien_map2();
+        controls.AlienMap.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        controls.AlienMap.Look.canceled  += ctx => lookInput = Vector2.zero;
     }
-    void Start()
-    {
 
-    }
+    private void OnEnable() => controls.AlienMap.Enable();
+    private void OnDisable() => controls.AlienMap.Disable();
 
     void Update()
     {
-
-        //faire tourner le monde autour de l'axe Y
-        if (rotate_stick != 0f)
-        {
-            world_center.transform.Rotate(Vector3.up, rotate_stick * speed * Time.deltaTime);
-        }
-
+        if (Mathf.Abs(lookInput.x) < 0.01f) return;
+        transform.Rotate(Vector3.up, lookInput.x * speed * Time.deltaTime, Space.World);
     }
 }

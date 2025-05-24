@@ -325,6 +325,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2651043944635743196, guid: 14ba8c5d3a452604695a638bf9f5e5c9,
         type: 3}
+      propertyPath: worldCenter
+      value: 
+      objectReference: {fileID: 499674049}
+    - target: {fileID: 2651043944635743196, guid: 14ba8c5d3a452604695a638bf9f5e5c9,
+        type: 3}
       propertyPath: world_center
       value: 
       objectReference: {fileID: 499674048}
@@ -1238,7 +1243,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968665455}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7892a249dd48ea84fb0e031f5e3528c4, type: 3}
   m_Name: 
