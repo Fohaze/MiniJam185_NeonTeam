@@ -7929,37 +7929,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bindings:
   - label: Up
-    actionReference: {fileID: 946199116897548783, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2,
+    actionReference: {fileID: 946199116897548783, guid: 21af79dca7b124e4e99eecfdee11c494,
       type: 3}
     bindingIndex: 2
     rebindButton: {fileID: 574677044}
     bindingText: {fileID: 1937784036}
   - label: Down
-    actionReference: {fileID: 946199116897548783, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2,
+    actionReference: {fileID: 946199116897548783, guid: 21af79dca7b124e4e99eecfdee11c494,
       type: 3}
     bindingIndex: 3
     rebindButton: {fileID: 111650132}
     bindingText: {fileID: 1864601349}
   - label: Left
-    actionReference: {fileID: 946199116897548783, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2,
+    actionReference: {fileID: 946199116897548783, guid: 21af79dca7b124e4e99eecfdee11c494,
       type: 3}
     bindingIndex: 4
     rebindButton: {fileID: 592337893}
     bindingText: {fileID: 684434241}
   - label: Right
-    actionReference: {fileID: 946199116897548783, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2,
+    actionReference: {fileID: 946199116897548783, guid: 21af79dca7b124e4e99eecfdee11c494,
       type: 3}
     bindingIndex: 5
     rebindButton: {fileID: 486449777}
     bindingText: {fileID: 959361530}
   - label: Jump
-    actionReference: {fileID: 3725389446545137397, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2,
+    actionReference: {fileID: 3725389446545137397, guid: 21af79dca7b124e4e99eecfdee11c494,
       type: 3}
     bindingIndex: 0
     rebindButton: {fileID: 899142440}
     bindingText: {fileID: 1268773854}
   - label: Interagir
-    actionReference: {fileID: -6359759833692169735, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2,
+    actionReference: {fileID: -6359759833692169735, guid: 21af79dca7b124e4e99eecfdee11c494,
       type: 3}
     bindingIndex: 0
     rebindButton: {fileID: 1522526533}

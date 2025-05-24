@@ -128,6 +128,12 @@ public void OnFootRight()
 
     private void Update()
     {
+        // Guard against missing moveAction to prevent NRE
+        if (moveAction == null)
+        {
+            Debug.LogError("moveAction not initialized! Assign InputActionAsset in Inspector and ensure ActionsMap contains 'Directions'.");
+            return;
+        }
         // Lit la valeur Vector2 de l’action
         Vector2 inputVector = moveAction.ReadValue<Vector2>();
         // Ici tu peux l’utiliser pour déplacer ton personnage…
@@ -156,8 +162,8 @@ public void OnFootRight()
             */
             if(!Physics.Raycast(transform.position, moveDir, out RaycastHit hit, 1f))
             {
-                planetRotator.Rotate(moveInput.x, moveInput.y, rotate_speed);
-                //Debug.Log("hit Object " + hit.collider.gameObject.name);
+                // Provide z=0f to match Rotate(x,y,z,rotate_speed)
+                planetRotator?.Rotate(moveInput.x, moveInput.y, 0f, rotate_speed);
             }
         }
         anim.SetFloat("speed", mag);
