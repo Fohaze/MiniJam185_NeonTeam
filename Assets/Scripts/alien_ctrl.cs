@@ -163,6 +163,11 @@ public void OnFootRight()
         anim.SetFloat("speed", mag);
         
 
+        if(transform.position.y < 20)
+        {
+            transform.position = new Vector3(0, 40, 0);
+        }
+
     }
 
     void LateUpdate()

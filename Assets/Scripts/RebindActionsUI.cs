@@ -21,22 +21,33 @@ public class RebindActionsUI : MonoBehaviour
     public List<BindingUI> bindings;
     private string prefsKey = "rebinds";
 
-    private void Awake()
+private void Awake()
+{
+    // Si on a mis à jour ses bindings, on efface l’ancienne config
+    if (PlayerPrefs.HasKey(prefsKey))
     {
-        // Charger les overrides sauvegardés
-        var json = PlayerPrefs.GetString(prefsKey, "");
-        if (!string.IsNullOrEmpty(json))
-        {
-            // l'asset est le même pour toutes les actions
-            var asset = bindings[0].actionReference.action.actionMap.asset;
-            asset.LoadBindingOverridesFromJson(json);
-        }
+        Debug.Log("Clear legacy rebinding overrides");
+        PlayerPrefs.DeleteKey(prefsKey);
+        PlayerPrefs.Save();
     }
 
+    // Puis on charge (il n’y a plus rien d’obsolète)
+    var json = PlayerPrefs.GetString(prefsKey, "");
+    if (!string.IsNullOrEmpty(json))
+        bindings[0].actionReference.action.actionMap.asset
+                .LoadBindingOverridesFromJson(json);
+}
     private void Start()
     {
         foreach (var b in bindings)
         {
+            // Ignorer les composites : ne rebinder que les parties simples
+            var binding = b.actionReference.action.bindings[b.bindingIndex];
+            if (binding.isComposite)
+            {
+                Debug.LogWarning($"RebindActionsUI: skip composite binding index {b.bindingIndex} for action {b.actionReference.action.name}. Use its parts instead.");
+                continue;
+            }
             UpdateBindingDisplay(b);
             b.rebindButton.onClick.AddListener(() => StartRebind(b));
         }
@@ -54,7 +65,6 @@ public class RebindActionsUI : MonoBehaviour
     {
         b.rebindButton.interactable = false;
         b.bindingText.text = "Appuyez sur une touche...";
-
         b.actionReference.action
          .PerformInteractiveRebinding(b.bindingIndex)
          .WithControlsExcluding("<Mouse>")

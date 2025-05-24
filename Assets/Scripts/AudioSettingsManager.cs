@@ -17,11 +17,11 @@ public class AudioSettingsManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField, Range(0f, 1f)]
-    private float masterVolume = 1f;
+    public float masterVolume = 1f;
     [SerializeField, Range(0f, 1f)]
-    private float musicVolume = 1f;
+    public float musicVolume = 1f;
     [SerializeField]
-    private bool musicEnabled = true;
+    public bool musicEnabled = true;
 
     public float MasterVolume => masterVolume;
     public float MusicVolume => musicVolume;

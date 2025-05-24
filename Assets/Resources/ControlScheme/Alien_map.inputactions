@@ -7,12 +7,12 @@
             "actions": [
                 {
                     "name": "Directions",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "878ad6c6-45f8-4141-8f0e-0077f6bd09ef",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Sauter",
@@ -55,9 +55,75 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "16941f2e-a036-4f78-8fb8-3c0134bdc9cd",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e32db265-776a-48f9-935a-b5226b129e48",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "84e7918f-c3d8-48de-bbc1-cc4d8ce2ac2b",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "3204b782-1594-446a-8811-410f3b6536ab",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e28e2f99-a219-427b-af42-bdc62bf387c9",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Directions",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
                     "id": "22a675f7-a070-4fb4-982e-a1c60eee7cbb",
                     "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sauter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c986f5bd-7402-4940-8b5c-7eede6cc9749",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -78,12 +144,21 @@
                 },
                 {
                     "name": "",
+<<<<<<< HEAD
                     "id": "a82a1ac6-3539-4fcb-b327-8d3d5355802f",
                     "path": "<Gamepad>/rightStick/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "cam_x",
+=======
+                    "id": "70408672-cacf-4758-baf9-fe25418310a2",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interagir",
+>>>>>>> ce33fc280e4bf900a8abafa1c6dc424d8a60b267
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
