@@ -56,7 +56,9 @@ public class alien_ctrl : MonoBehaviour
 
     void Update_jump()
     {
-        if(!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.8f))
+        //if(!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.8f))
+        //raycast sphère
+        if(!Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1.8f))
         {
             transform.position += Vector3.down * fall_speed * Time.deltaTime;
         }
@@ -155,7 +157,7 @@ public void OnFootRight()
             if(!Physics.Raycast(transform.position, moveDir, out RaycastHit hit, 1f))
             {
                 planetRotator.Rotate(moveInput.x, moveInput.y, rotate_speed);
-                Debug.Log("hit Object " + hit.collider.gameObject.name);
+                //Debug.Log("hit Object " + hit.collider.gameObject.name);
             }
         }
         anim.SetFloat("speed", mag);
