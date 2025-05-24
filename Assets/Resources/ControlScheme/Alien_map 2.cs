@@ -62,6 +62,15 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""c8b7ec25-efb4-41ca-b37f-bea52ac5f2e2"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -185,6 +194,28 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
                     ""action"": ""dir_x"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90e1af65-5e33-4dd7-9dbb-5b212e5d19bd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""dir_x"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ad9469e-8a3f-4531-9901-61151faf0d68"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -197,6 +228,7 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
         m_AlienMap_Sauter = m_AlienMap.FindAction("Sauter", throwIfNotFound: true);
         m_AlienMap_Interagir = m_AlienMap.FindAction("Interagir", throwIfNotFound: true);
         m_AlienMap_dir_x = m_AlienMap.FindAction("dir_x", throwIfNotFound: true);
+        m_AlienMap_Look = m_AlienMap.FindAction("Look", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -262,6 +294,7 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
     private readonly InputAction m_AlienMap_Sauter;
     private readonly InputAction m_AlienMap_Interagir;
     private readonly InputAction m_AlienMap_dir_x;
+    private readonly InputAction m_AlienMap_Look;
     public struct AlienMapActions
     {
         private @Alien_map2 m_Wrapper;
@@ -270,6 +303,7 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
         public InputAction @Sauter => m_Wrapper.m_AlienMap_Sauter;
         public InputAction @Interagir => m_Wrapper.m_AlienMap_Interagir;
         public InputAction @dir_x => m_Wrapper.m_AlienMap_dir_x;
+        public InputAction @Look => m_Wrapper.m_AlienMap_Look;
         public InputActionMap Get() { return m_Wrapper.m_AlienMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -291,6 +325,9 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
             @dir_x.started += instance.OnDir_x;
             @dir_x.performed += instance.OnDir_x;
             @dir_x.canceled += instance.OnDir_x;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
         }
 
         private void UnregisterCallbacks(IAlienMapActions instance)
@@ -307,6 +344,9 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
             @dir_x.started -= instance.OnDir_x;
             @dir_x.performed -= instance.OnDir_x;
             @dir_x.canceled -= instance.OnDir_x;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
         }
 
         public void RemoveCallbacks(IAlienMapActions instance)
@@ -330,5 +370,6 @@ public partial class @Alien_map2: IInputActionCollection2, IDisposable
         void OnSauter(InputAction.CallbackContext context);
         void OnInteragir(InputAction.CallbackContext context);
         void OnDir_x(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
 }
