@@ -432,6 +432,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7252680887480357845}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b11423662d48a11448ec1e58b4a2f1c2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7960929499306892291}
     - targetCorrespondingSourceObject: {fileID: 7036213049465896255, guid: b11423662d48a11448ec1e58b4a2f1c2,
         type: 3}
       insertIndex: -1
@@ -626,7 +630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cff1a4865d3a246b2ff45bb2a62c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2, type: 3}
+  actions: {fileID: -944628639613478452, guid: 21af79dca7b124e4e99eecfdee11c494, type: 3}
   moveInput: {x: 0, y: 0}
   speed: 15
   anim: {fileID: 4287311439783205111}
@@ -663,10 +667,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   fall_speed: 10
   world_center: {fileID: 0}
-  planetRotator: {fileID: 0}
   rotate_speed: -25
   world: {fileID: 0}
   jump_time: 0
+  vel_fall: 0
 --- !u!114 &8864251753486596318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,9 +755,9 @@ MonoBehaviour:
   healthSlider: {fileID: 0}
   temperatureText: {fileID: 0}
   temperatureChecker: {fileID: 0}
-  flameImage: {fileID: 0}
-  flameDecreaseDuration: 5
-  flameIncreaseDuration: 5
+  soleilImage: {fileID: 0}
+  soleilDecreaseDuration: 5
+  soleilIncreaseDuration: 5
   floconImage: {fileID: 0}
   floconIncreaseDuration: 5
   floconDecreaseDuration: 5
@@ -761,7 +765,42 @@ MonoBehaviour:
   frostAnimator: {fileID: 0}
   frostAppearTrigger: FrostAppear
   frostDisappearTrigger: FrostDisappear
+  flameImage: {fileID: 0}
+  flameDecreaseDuration: 5
+  flameIncreaseDuration: 5
+  fireMaxTemperature: 40
+  fireTempIncreaseDuration: 5
   dansLeNoir: 0
+  campfireObject: {fileID: 0}
+  healingRadius: 5
+  healPerTick: 5
+  healInterval: 1
+--- !u!143 &7960929499306892291
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409665424544143415}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 4.04
+  m_Radius: 0.67
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &7494492569358322962 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 149968898359814260, guid: b11423662d48a11448ec1e58b4a2f1c2,
