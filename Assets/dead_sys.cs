@@ -20,6 +20,15 @@ public class dead_sys : MonoBehaviour
         var lon = 30;
 
         pr2.SetRotator(lat, lon);
+        var ph = player.GetComponent<PlayerHealth>();
+        if (ph != null)
+        {
+            ph.currentHealth = ph.maxHealth; // Reset player's health
+        }
+        else
+        {
+            Debug.LogError("PlayerHealth component not found on player object.");
+        }
     }
 
     void Update()
