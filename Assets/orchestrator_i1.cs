@@ -15,7 +15,23 @@ public class orchestrator_i1 : MonoBehaviour
     public alien_ctrl1 alc1;
     public bool cinematic_is_played = false;
     public GameObject dead_sceen;
+    public TimelineAsset dead_cinematique;
 
+
+    public void StartCinematiqueDead()
+    {
+        if (director != null && dead_cinematique != null)
+        {
+            director.playableAsset = dead_cinematique;
+            director.time = 0; // Reset to the start of the timeline
+            director.Play();
+            Debug.Log("Starting death cinematic.");
+        }
+        else
+        {
+            Debug.LogError("PlayableDirector or death cinematic is not assigned in orchestrator_i1.");
+        }
+    }
     
     private void OnEnable()
     {
@@ -29,7 +45,7 @@ public class orchestrator_i1 : MonoBehaviour
 
     }
 
-    void loose_screen()
+    public void loose_screen()
     {
         Debug.Log("Player has died, showing loose screen.");
         dead_sceen.SetActive(true);

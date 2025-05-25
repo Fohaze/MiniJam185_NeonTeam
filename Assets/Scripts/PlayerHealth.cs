@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -100,7 +101,7 @@ public class PlayerHealth : MonoBehaviour
     public float healInterval = 1f;
     private Coroutine healCoroutine;
 
-    private int currentHealth;
+    public int currentHealth;
     private Coroutine damageCoroutine;
     private bool frostAnimationState = false;
 
@@ -150,6 +151,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        Debug.Log($"Player takes {amount} damage. Current health: {currentHealth}");
         if (currentHealth <= 0) return;
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);
@@ -162,10 +164,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void KillPlayer()
     {
-        if (currentHealth <= 0) return;
+        Debug.Log("Player has died.");
         currentHealth = 0;
         OnDeath?.Invoke();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        if (currentHealth <= 0) return;
     }
 
     public void StartDamageOverTime()
