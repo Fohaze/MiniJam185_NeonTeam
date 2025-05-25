@@ -10,6 +10,8 @@ public class Harpon : MonoBehaviour
     public GameObject player;
     public GameObject arrow;
     public GameObject harpon;
+
+    public Camera harponCamera;
     public GameObject uiInteract;
     public GameObject harponPos0;
     public GameObject harponPos1;
@@ -24,6 +26,7 @@ public class Harpon : MonoBehaviour
     public List<GameObject> objectsToPick;
 
     bool canInteract = false;
+    public GameObject pick = null;
     
 
     void OnEnable(){
@@ -45,17 +48,23 @@ public class Harpon : MonoBehaviour
     {
         canInteract = Vector3.Distance(player.transform.position, firePosition.transform.position) < 1.5f;
         uiInteract.SetActive(canInteract);
+        harponCamera.gameObject.SetActive(canInteract);
+
         rotator.transform.localRotation *= Quaternion.Euler(rotateSpeed * Time.deltaTime, 0, 0);
         lineRenderer.SetPosition(0, arrow.transform.position);
         lineRenderer.SetPosition(1, harpon.transform.position);
         arrow.transform.position = Vector3.Lerp(harponPos0.transform.position, harponPos1.transform.position, harponCurve.Evaluate(harponTime));
         harponTime += Time.deltaTime;
-        GameObject pick = null;
-        if(harponTime < harponCurve.keys[harponCurve.keys.Length - 1].time){
+        if(harponTime < 1){
+            if(pick != null)
+                return;
+
             for(int i = objectsToPick.Count - 1; i >= 0; i--){
-                if(Vector3.Distance(arrow.transform.position, objectsToPick[i].transform.position) < 3){
+                if(Vector3.Distance(arrow.transform.position, objectsToPick[i].transform.position) < 7){
+                    //Debug.Log("DISTANCE OK");
                     pick = objectsToPick[i];
                     pick.transform.parent = arrow.transform;
+                    pick.transform.localPosition = Vector3.zero;
                     objectsToPick.RemoveAt(i);
                 }
             }
@@ -64,6 +73,7 @@ public class Harpon : MonoBehaviour
             if(pick != null){
                 pick.transform.parent = harpon.transform;
                 pick.transform.position = objectsRecupPosition.transform.position;
+                pick = null;
             }
         }
     }
