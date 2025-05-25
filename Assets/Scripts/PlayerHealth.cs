@@ -9,9 +9,12 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Points de vie maximum du joueur")]
     public int maxHealth = 100;
     [Tooltip("Dégats appliqué par tick")]
-    public int damagePerTick = 5;
+    public int damagePerTick = 1;
     [Tooltip("Interval en secondes entre chaque tick de dommage lorsque DoT est actif")]
     public float damageInterval = 1f;
+    [Header("Dégât Externe (Type Balle)")]
+    [Tooltip("Dégâts appliqués lorsque ApplyDamage est appelé")]
+    public int externalDamageAmount = 10;
 
     [Header("Events")]
     public UnityEvent OnTakeDamage;
@@ -220,6 +223,11 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public int GetCurrentHealth() => currentHealth;
+
+    public void ApplyDamage()
+    {
+        TakeDamage(externalDamageAmount);
+    }
 
     private void Update()
     {
