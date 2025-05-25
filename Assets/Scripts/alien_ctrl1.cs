@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Timeline;
+using UnityEngine.Playables;
 
 public class alien_ctrl1 : MonoBehaviour
 {
@@ -31,6 +33,28 @@ public class alien_ctrl1 : MonoBehaviour
     public float vel_fall = 0f;
     public float rotate_stick = 0f;
     public float rotate_speed_y = 45f;
+    public drop_elem dropElem;
+    //timeline
+    public PlayableDirector planetRotatorDirector;
+    //séquence a faire jouer a la timeline
+    public TimelineAsset director;
+
+
+    public float offset_to_ground;
+    public float marge_to_magnet_ground = 0.5f;
+    public float current_height = 0f;
+
+
+    public void Stop_Controlle()
+    {
+        // désactive le script
+        this.enabled = false;
+    }
+    public void Start_Controlle()
+    {
+        // active le script
+        this.enabled = true;
+    }
 
     private void OnEnable()
     {
@@ -56,7 +80,7 @@ public class alien_ctrl1 : MonoBehaviour
 
 
         //var interactAction = map.FindAction("dir_x");
-        interactAction.performed += ctx => rotate_stick = ctx.ReadValue<float>();
+        interactAction.performed += ctx => interact_act();
         interactAction.Enable();
 
         
@@ -98,6 +122,30 @@ public class alien_ctrl1 : MonoBehaviour
 
     public void interact_act()
     {
+        if (dropElem != null && dropElem.is_dockable)
+        {
+            //lancer la cinematique de dock
+            if (planetRotatorDirector != null)
+            {
+                //métre la bonne cinématique dans le director
+                if (director != null)
+                {
+                    planetRotatorDirector.playableAsset = director;
+                    planetRotatorDirector.time = 0; // Revenir au début de la timeline
+                    planetRotatorDirector.Play();
+                }
+                else
+                {
+                    Debug.LogError("PlayableDirector is not assigned in alien_ctrl1.");
+                }
+            }
+            else
+            {
+                Debug.LogError("PlanetRotatorDirector is not assigned in alien_ctrl1.");
+            }
+        }
+        if (dropElem == null || !dropElem.is_can_take)
+            return;
         anim.SetTrigger("interact");
     }
 
@@ -146,6 +194,24 @@ public void OnFootRight()
         jump_time = 0f;
     }
 
+    public void place_to_ground()
+    {
+        var hit = Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hitInfo, marge_to_magnet_ground + offset_to_ground);
+        Debug.DrawRay(transform.position, Vector3.down * (marge_to_magnet_ground + offset_to_ground), Color.red, 0.1f);
+        if (hit)
+        {
+            var player_pos = transform.position;
+            var hit_pos = hitInfo.point;
+            player_pos.y = hit_pos.y + offset_to_ground;
+            transform.position = player_pos;
+            current_height = player_pos.y;
+        }
+        else
+        {
+            Debug.LogWarning("No ground detected to place the character.");
+        }
+    }
+
     private void Update()
     {
         // Lit la valeur Vector2 de l’action
@@ -174,7 +240,10 @@ public void OnFootRight()
             w_an.x += moveInput.x * rotate_speed * Time.deltaTime;
             world_center.transform.eulerAngles = w_an;
             */
+            
+            moveDir = -transform.right; 
             var hit = Physics.Raycast(transform.position, moveDir, out RaycastHit hitInfo, 1f);
+            //var hit = Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 1f);
             var col_ = Color.red;
             if(!hit)
             //spherecast pour éviter les collisions
@@ -199,7 +268,7 @@ public void OnFootRight()
             transform.position = new Vector3(0, 40, 0);
         }
         */
-
+        place_to_ground();
     }
 
     void LateUpdate()
