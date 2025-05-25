@@ -47,6 +47,7 @@ public class alien_ctrl1 : MonoBehaviour
     public float current_height = 0f;
     public bool is_on_aire;
     public float sensy_dead_zone = 0.1f;
+    private bool isGrounded;
 
     public void Stop_Controlle()
     {
@@ -222,6 +223,8 @@ public void OnFootRight()
 
     public void jump_action(InputAction.CallbackContext context)
     {
+        // N’autorise le saut que si on est au sol
+        if (!isGrounded) return;
         // Appel de la méthode de saut
         anim.SetTrigger("jump");
         start_jump_pos = transform.position;
@@ -248,10 +251,11 @@ public void OnFootRight()
 
     private void Update()
     {
+        // Vérifie si on est au sol
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit groundHit, marge_to_magnet_ground + offset_to_ground + 0.1f);
         // Lit la valeur Vector2 de l’action
         Vector2 inputVector = moveAction.ReadValue<Vector2>();
         // Ici tu peux l’utiliser pour déplacer ton personnage…
-        //Debug.Log($"Input move : {inputVector}");
         moveInput = inputVector;
 
         var y_cam = cam.transform.eulerAngles.y;
