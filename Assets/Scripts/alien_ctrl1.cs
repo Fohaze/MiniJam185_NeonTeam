@@ -43,7 +43,7 @@ public class alien_ctrl1 : MonoBehaviour
     public float offset_to_ground;
     public float marge_to_magnet_ground = 0.5f;
     public float current_height = 0f;
-
+    public bool is_on_aire;
 
     public void Stop_Controlle()
     {
@@ -92,6 +92,20 @@ public class alien_ctrl1 : MonoBehaviour
 
     void Update_jump()
     {
+        var jump_h = anim.GetFloat("jump_h");
+        if (jump_h != 0f)
+        {
+            is_on_aire = true;
+            var pos = transform.position;
+            pos.y = start_jump_pos.y + (jump_h * jump_hauteur);
+            transform.position = pos;
+            return;
+        }
+        else
+        {
+            start_jump_pos = transform.position;
+            is_on_aire = false;
+        }
         //raycast sphère
         //if(!Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1.8f))
         if(!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.8f))
@@ -105,7 +119,7 @@ public class alien_ctrl1 : MonoBehaviour
             //transform.position += Vector3.down * fall_speed * Time.deltaTime;
         }
 
-        //var jump_h = anim.GetFloat("jump_h");
+        
         if(jump_time < 0)
             return;
         /*
