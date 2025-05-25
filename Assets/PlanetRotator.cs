@@ -1,22 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlanetRotator : MonoBehaviour
+public class planetRotor : MonoBehaviour
 {
-    public GameObject rotator;
-    public GameObject planetParent;
 
+    [SerializeField] private float speed = 5f;
 
-    public void Rotate(float x, float y, float z, float rotate_speed)
-    {   Vector3 planetRot = planetParent.transform.eulerAngles;
-        rotator.transform.rotation = Quaternion.Euler(0, 0, 0);
-        planetParent.transform.eulerAngles = planetRot;
-        
-        var rotEulers = rotator.transform.eulerAngles;
-        rotEulers.x += x * rotate_speed * Time.deltaTime;
-        rotEulers.y += y * rotate_speed * Time.deltaTime;
-        rotEulers.z += z * rotate_speed * Time.deltaTime;
-        rotator.transform.eulerAngles = rotEulers;
+    private Alien_map2 controls;
+    private Vector2 lookInput;
+
+    private void Awake()
+    {
+        controls = new Alien_map2();
+        controls.AlienMap.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        controls.AlienMap.Look.canceled  += ctx => lookInput = Vector2.zero;
+    }
+
+    private void OnEnable() => controls.AlienMap.Enable();
+    private void OnDisable() => controls.AlienMap.Disable();
+
+    void Update()
+    {
+        if (Mathf.Abs(lookInput.x) < 0.01f) return;
+        transform.Rotate(Vector3.up, lookInput.x * speed * Time.deltaTime, Space.World);
     }
 }

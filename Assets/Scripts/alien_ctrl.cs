@@ -23,11 +23,11 @@ public class alien_ctrl : MonoBehaviour
     public AnimationCurve jump_curve;
     public float fall_speed = 1f;
     public GameObject world_center;
-    public PlanetRotator planetRotator;
     public float rotate_speed = 5f;
     public GameObject world;
 
     public float jump_time = -1;
+    public float vel_fall = 0f;
 
     private void OnEnable()
     {
@@ -60,16 +60,24 @@ public class alien_ctrl : MonoBehaviour
         //raycast sphère
         if(!Physics.SphereCast(transform.position, 0.5f, Vector3.down, out RaycastHit hit, 1.8f))
         {
-            transform.position += Vector3.down * fall_speed * Time.deltaTime;
+            var max_speed = speed * 0.5f;
+            vel_fall += fall_speed * Time.deltaTime;
+            if(vel_fall > max_speed)
+                vel_fall = max_speed;
+            transform.position += Vector3.down * vel_fall * Time.deltaTime;
+            
+            //transform.position += Vector3.down * fall_speed * Time.deltaTime;
         }
 
         //var jump_h = anim.GetFloat("jump_h");
         if(jump_time < 0)
             return;
+        /*
         jump_time += Time.deltaTime;
         var pt = transform.position;
         pt.y = start_jump_pos.y + jump_curve.Evaluate(jump_time) * jump_hauteur;
         transform.position = pt;
+        */
         if(jump_time > jump_curve.keys[jump_curve.keys.Length - 1].time)
         {
             jump_time = -1;
@@ -154,19 +162,23 @@ public void OnFootRight()
             w_an.x += moveInput.x * rotate_speed * Time.deltaTime;
             world_center.transform.eulerAngles = w_an;
             */
-            if(!Physics.Raycast(transform.position, moveDir, out RaycastHit hit, 1f))
+            if(!Physics.Raycast(transform.position , moveDir, out RaycastHit hit, 1f))
+            //spherecast pour éviter les collisions
+            //if(!Physics.SphereCast(transform.position, 0.5f, moveDir, out RaycastHit hit, 1f))
             {
-                planetRotator.Rotate(moveInput.x, moveInput.y, rotate_speed);
+                // Fait tourner la planète autour de son centre en fonction de l’entrée
+                world_center.transform.Rotate(new Vector3(moveInput.x, 0f, moveInput.y) * rotate_speed * Time.deltaTime, Space.World);
                 //Debug.Log("hit Object " + hit.collider.gameObject.name);
             }
         }
         anim.SetFloat("speed", mag);
         
-
+        /*
         if(transform.position.y < 20)
         {
             transform.position = new Vector3(0, 40, 0);
         }
+        */
 
     }
 
