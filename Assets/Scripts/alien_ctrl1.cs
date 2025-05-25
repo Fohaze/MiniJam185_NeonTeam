@@ -11,6 +11,9 @@ public class alien_ctrl1 : MonoBehaviour
     public InputActionAsset actions;
 
     private InputAction moveAction;
+    private InputAction jumpAction;
+    private InputAction interactAction;
+    private InputAction rotateAction;
     public Vector2 moveInput;
     public float speed = 5f;
     public Animator anim;
@@ -58,37 +61,53 @@ public class alien_ctrl1 : MonoBehaviour
 
     private void OnEnable()
     {
-        // Récupère l’ActionMap "basic_move"
         var map = actions.FindActionMap("AlienMap");
-        // Récupère l’Action "move"
+        // Directions
         moveAction = map.FindAction("Directions");
-        // Active-la pour qu’elle commence à écouter
-        
-        // Récupère le bouton "Sauter"
-        var jumpAction = map.FindAction("Sauter");
-        //link l’action de saut à la méthode jump_action
-        jumpAction.performed += jump_action;
-        // Active l’action de saut
-        jumpAction.Enable();
-
-        // Récupère le bouton "Interagir"
-        var interactAction = map.FindAction("Interagir");
-        //link l’action de saut à la méthode jump_action
-        
-
         moveAction.Enable();
 
+        // Saut
+        jumpAction = map.FindAction("Sauter");
+        jumpAction.performed += jump_action;
+        jumpAction.Enable();
 
-        //var interactAction = map.FindAction("dir_x");
-        interactAction.performed += ctx => interact_act();
+        // Interaction
+        interactAction = map.FindAction("Interagir");
+        interactAction.performed += OnInteractPerformed;
         interactAction.Enable();
 
-        
-        var interactAction2 = map.FindAction("dir_x");
-        interactAction2.performed += ctx => rotate_stick = ctx.ReadValue<float>();
-        // Active l’action de saut
-        interactAction2.Enable();
+        // Rotation stick
+        rotateAction = map.FindAction("dir_x");
+        rotateAction.performed += OnRotatePerformed;
+        rotateAction.canceled += OnRotateCanceled;
+        rotateAction.Enable();
     }
+
+    private void OnDisable()
+    {
+        moveAction.Disable();
+        if (jumpAction != null)
+        {
+            jumpAction.performed -= jump_action;
+            jumpAction.Disable();
+        }
+        if (interactAction != null)
+        {
+            interactAction.performed -= OnInteractPerformed;
+            interactAction.Disable();
+        }
+        if (rotateAction != null)
+        {
+            rotateAction.performed -= OnRotatePerformed;
+            rotateAction.canceled -= OnRotateCanceled;
+            rotateAction.Disable();
+        }
+    }
+
+    // Handlers
+    private void OnInteractPerformed(InputAction.CallbackContext ctx) => interact_act();
+    private void OnRotatePerformed(InputAction.CallbackContext ctx) => rotate_stick = ctx.ReadValue<float>();
+    private void OnRotateCanceled(InputAction.CallbackContext ctx) => rotate_stick = 0f;
 
     void Update_jump()
     {
@@ -200,11 +219,6 @@ public void OnFootRight()
 
 
     
-
-    private void OnDisable()
-    {
-        moveAction.Disable();
-    }
 
     public void jump_action(InputAction.CallbackContext context)
     {
