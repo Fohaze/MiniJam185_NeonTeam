@@ -10,9 +10,11 @@ public class orchestrator_i1 : MonoBehaviour
 
     [SerializeField] private PlayableDirector director;
     public InputActionAsset actions;
+    public PlayerHealth playerH;
 
     public alien_ctrl1 alc1;
     public bool cinematic_is_played = false;
+    public GameObject dead_sceen;
 
     
     private void OnEnable()
@@ -23,6 +25,14 @@ public class orchestrator_i1 : MonoBehaviour
         interactAction.performed += ctx => skip_cinematic();
         interactAction.Enable();
 
+        //playerH.onDeath += loose_screen; // Assure que la fonction loose_screen est appelée lors de la mort du joueur
+
+    }
+
+    void loose_screen()
+    {
+        Debug.Log("Player has died, showing loose screen.");
+        dead_sceen.SetActive(true);
     }
 
     private void skip_cinematic()
@@ -69,6 +79,13 @@ public class orchestrator_i1 : MonoBehaviour
             {
                 cinematic_is_played = true;
             }
+
+            /*
+            if (currentHealth <= 0)
+            {
+
+            }
+            */
         
     }
 }
