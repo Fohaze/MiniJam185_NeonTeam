@@ -45,6 +45,11 @@ public class orchestrator_i1 : MonoBehaviour
 
     }
 
+    public void respawn_last_check_point()
+    {
+        
+    }
+
     public void loose_screen()
     {
         Debug.Log("Player has died, showing loose screen.");
