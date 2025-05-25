@@ -38,8 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.00043592489, g: 0.00042256044, b: 0.00035844237,
-    a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7709,12 +7707,12 @@ GameObject:
   - component: {fileID: 1536234689}
   - component: {fileID: 1536234688}
   m_Layer: 5
-  m_Name: UNKNOW
+  m_Name: Look
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1536234687
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7978,6 +7976,12 @@ MonoBehaviour:
     bindingIndex: 0
     rebindButton: {fileID: 1522526533}
     bindingText: {fileID: 1778170175}
+  - label: Look
+    actionReference: {fileID: -3684653160583503087, guid: 21af79dca7b124e4e99eecfdee11c494,
+      type: 3}
+    bindingIndex: 0
+    rebindButton: {fileID: 420282184}
+    bindingText: {fileID: 649523450}
 --- !u!1 &1567388453
 GameObject:
   m_ObjectHideFlags: 0
@@ -8515,12 +8519,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &1722222766
 GameObject:
   m_ObjectHideFlags: 0
