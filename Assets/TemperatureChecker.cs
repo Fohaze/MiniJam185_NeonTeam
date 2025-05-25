@@ -10,8 +10,6 @@ public class TemperatureChecker : MonoBehaviour
     [SerializeField]
     private GameObject sun;
 
-    [SerializeField]
-    private GameObject player;
     
     public float GetTemperature(Vector3 position){
         Vector3 playerDirection = (position - planet.transform.position).normalized;

@@ -686,7 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cff1a4865d3a246b2ff45bb2a62c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 205fbd46a7f11ea4abd9d38fb6c9b8a2, type: 3}
+  actions: {fileID: -944628639613478452, guid: 21af79dca7b124e4e99eecfdee11c494, type: 3}
   moveInput: {x: 0, y: 0}
   speed: 15
   anim: {fileID: 328401461}
@@ -1085,7 +1085,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planet: {fileID: 499674048}
   sun: {fileID: 1514908241}
-  player: {fileID: 328401435}
 --- !u!1 &763232810
 GameObject:
   m_ObjectHideFlags: 0
