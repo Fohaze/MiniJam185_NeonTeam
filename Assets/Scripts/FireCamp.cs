@@ -20,6 +20,10 @@ public class FireCamp : MonoBehaviour
     public AudioClip soundDecrement;
     public AudioClip soundFull;
 
+    [Header("Détection")]
+    [Tooltip("Distance pour détecter et consommer les objets BouDeBoa")]
+    public float detectionRange = 1f;
+
     private const float maxValue = 10f;
 
     private void Start()
@@ -65,6 +69,17 @@ public class FireCamp : MonoBehaviour
 
     private void Update()
     {
+        // Détection et consommation des BouDeBoa
+        Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange);
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("BouDeBoa"))
+            {
+                AjouterCombustible();
+                Destroy(hit.gameObject);
+                break;
+            }
+        }
         MettreAJourTexte();
     }
 
