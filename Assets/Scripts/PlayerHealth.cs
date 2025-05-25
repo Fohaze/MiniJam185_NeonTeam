@@ -27,13 +27,13 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("TemperatureChecker component to retrieve temperature")]
     public TemperatureChecker temperatureChecker;
 
-    [Header("Flame UI")]
-    [Tooltip("RawImage UI element for flame fill")]
-    public RawImage flameImage;
-    [Tooltip("Durée (sec) pour que la flamme disparaisse")]
-    public float flameDecreaseDuration = 5f;
-    [Tooltip("Durée (sec) pour que la flamme réapparaisse")]
-    public float flameIncreaseDuration = 5f;
+    [Header("Soleil UI")]
+    [Tooltip("RawImage UI element for soleil fill")]
+    public RawImage soleilImage;
+    [Tooltip("Durée (sec) pour que le soleil diminue")]
+    public float soleilDecreaseDuration = 5f;
+    [Tooltip("Durée (sec) pour que le soleil réapparaisse")]
+    public float soleilIncreaseDuration = 5f;
 
     [Header("Flocon UI")]
     [Tooltip("RawImage UI element for flocon fill")]
@@ -54,15 +54,48 @@ public class PlayerHealth : MonoBehaviour
     [Tooltip("Trigger name for frost disappear animation")]
     public string frostDisappearTrigger = "FrostDisappear";
 
+    [Header("Flame UI")]
+    [Tooltip("RawImage UI element for flame fill")]
+    public RawImage flameImage;
+    [Tooltip("Durée (sec) pour que la flamme disparaisse")]
+    public float flameDecreaseDuration = 5f;
+    [Tooltip("Durée (sec) pour que la flamme réapparaisse")]
+    public float flameIncreaseDuration = 5f;
+
+    [Header("Fire Temperature")]
+    [Tooltip("Température max près du feu")]
+    public float fireMaxTemperature = 40f;
+    [Tooltip("Durée (sec) pour atteindre la temperature max près du feu")]
+    public float fireTempIncreaseDuration = 5f;
+
     [Header("Environnement")]
     [Tooltip("Indique si le joueur est dans le noir")]
     public bool dansLeNoir;
     private bool damageStarted;
-    private float flameFill;
+    private float soleilFill;
     private float floconFill;
-    private Color flameInitColor;
+    private float flameFill;
+    private Color soleilInitColor;
     private Color floconInitColor;
+    private Color flameInitColor;
     private Color frostInitColor;
+    private float displayedTemperature;
+
+    // Healing zone proximity settings
+    [Header("Healing Zone Settings")]
+    [Tooltip("GameObject du feu de camp")]
+    public GameObject campfireObject;
+    [Tooltip("Rayon pour que le joueur soit soigné")]
+    public float healingRadius = 5f;
+
+    // Healing zone
+    private bool inHealingZone;
+    // Healing over time settings
+    [Tooltip("Points de vie récupérés par tick")]
+    public int healPerTick = 5;
+    [Tooltip("Interval en secondes entre chaque tick de soin")]
+    public float healInterval = 1f;
+    private Coroutine healCoroutine;
 
     private int currentHealth;
     private Coroutine damageCoroutine;
@@ -76,13 +109,13 @@ public class PlayerHealth : MonoBehaviour
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
         }
-        if (flameImage != null)
+        if (soleilImage != null)
         {
-            flameInitColor = flameImage.color;
-            flameFill = 1f;
-            var c = flameInitColor;
-            c.a = flameFill;
-            flameImage.color = c;
+            soleilInitColor = soleilImage.color;
+            soleilFill = 1f;
+            var c = soleilInitColor;
+            c.a = soleilFill;
+            soleilImage.color = c;
         }
         if (floconImage != null)
         {
@@ -99,6 +132,17 @@ public class PlayerHealth : MonoBehaviour
             cf.a = 0f;
             frostImage.color = cf;
         }
+        if (flameImage != null)
+        {
+            flameInitColor = flameImage.color;
+            flameFill = 0f;
+            var cf2 = flameInitColor;
+            cf2.a = flameFill;
+            flameImage.color = cf2;
+        }
+        // Init displayed temperature
+        if (temperatureChecker != null)
+            displayedTemperature = temperatureChecker.GetTemperature(transform.position);
     }
 
     public void TakeDamage(int amount)
@@ -145,66 +189,124 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void StartHealingOverTime()
+    {
+        StopHealingOverTime();
+        healCoroutine = StartCoroutine(HealingOverTime());
+    }
+
+    public void StopHealingOverTime()
+    {
+        if (healCoroutine != null)
+        {
+            StopCoroutine(healCoroutine);
+            healCoroutine = null;
+        }
+    }
+
+    private IEnumerator HealingOverTime()
+    {
+        while (true)
+        {
+            if (currentHealth < maxHealth)
+            {
+                currentHealth += healPerTick;
+                currentHealth = Mathf.Min(currentHealth, maxHealth);
+                if (healthSlider != null)
+                    healthSlider.value = currentHealth;
+            }
+            yield return new WaitForSeconds(healInterval);
+        }
+    }
+
     public int GetCurrentHealth() => currentHealth;
 
     private void Update()
     {
-        // Override 'dansLeNoir' based on temperature (<0°C)
-        if (temperatureChecker != null)
+        // Compute healing zone proximity only if campfireObject is active
+        if (campfireObject != null && campfireObject.activeInHierarchy)
+            inHealingZone = Vector3.Distance(transform.position, campfireObject.transform.position) <= healingRadius;
+        else
+            inHealingZone = false;
+
+        // Override 'dansLeNoir' based on healing zone and temperature (<0°C)
+        if (inHealingZone)
+        {
+            dansLeNoir = false;
+        }
+        else if (temperatureChecker != null)
         {
             float temp = temperatureChecker.GetTemperature(transform.position);
             dansLeNoir = (temp < 0f);
         }
-        if (flameImage == null || floconImage == null) return;
+        if (soleilImage == null || floconImage == null || flameImage == null) return;
 
-        if (dansLeNoir)
+        // Update flame UI: instant disappearance when leaving zone
+        if (inHealingZone)
+            flameFill = Mathf.Min(flameFill + Time.deltaTime / flameIncreaseDuration, 1f);
+        else
+            flameFill = 0f;
+        var cf3 = flameInitColor;
+        cf3.a = flameFill;
+        flameImage.color = cf3;
+
+        // Hide soleil and flocon UI when in healing zone
+        if (inHealingZone)
         {
-            if (flameFill > 0f)
+            // Hide soleil instantly
+            var csole = soleilInitColor;
+            csole.a = 0f;
+            soleilImage.color = csole;
+            // Fade out frost gradually
+            if (floconFill > 0f)
+                floconFill = Mathf.Max(floconFill - Time.deltaTime / floconDecreaseDuration, 0f);
+            var cfloc2 = floconInitColor;
+            cfloc2.a = floconFill;
+            floconImage.color = cfloc2;
+        }
+
+        // Soleil and flocon UI
+        if (!inHealingZone)
+        {
+            if (dansLeNoir)
             {
-                flameFill = Mathf.Max(flameFill - Time.deltaTime / flameDecreaseDuration, 0f);
-                var c = flameInitColor;
-                c.a = flameFill;
-                flameImage.color = c;
+                if (soleilFill > 0f)
+                {
+                    soleilFill = Mathf.Max(soleilFill - Time.deltaTime / soleilDecreaseDuration, 0f);
+                    var c = soleilInitColor;
+                    c.a = soleilFill;
+                    soleilImage.color = c;
+                }
+                else
+                {
+                    if (floconFill < 1f)
+                    {
+                        floconFill = Mathf.Min(floconFill + Time.deltaTime / floconIncreaseDuration, 1f);
+                        var c2 = floconInitColor;
+                        c2.a = floconFill;
+                        floconImage.color = c2;
+                    }
+                }
             }
             else
             {
-                if (floconFill < 1f)
+                if (floconFill > 0f)
                 {
-                    floconFill = Mathf.Min(floconFill + Time.deltaTime / floconIncreaseDuration, 1f);
+                    floconFill = Mathf.Max(floconFill - Time.deltaTime / floconDecreaseDuration, 0f);
                     var c2 = floconInitColor;
                     c2.a = floconFill;
                     floconImage.color = c2;
                 }
-                if (floconFill >= 1f && !damageStarted)
+                else
                 {
-                    damageStarted = true;
-                    StartDamageOverTime();
+                    if (soleilFill < 1f)
+                    {
+                        soleilFill = Mathf.Min(soleilFill + Time.deltaTime / soleilIncreaseDuration, 1f);
+                        var c = soleilInitColor;
+                        c.a = soleilFill;
+                        soleilImage.color = c;
+                    }
                 }
-            }
-        }
-        else
-        {
-            if (floconFill > 0f)
-            {
-                floconFill = Mathf.Max(floconFill - Time.deltaTime / floconDecreaseDuration, 0f);
-                var c2 = floconInitColor;
-                c2.a = floconFill;
-                floconImage.color = c2;
-            }
-            else
-            {
-                if (flameFill < 1f)
-                {
-                    flameFill = Mathf.Min(flameFill + Time.deltaTime / flameIncreaseDuration, 1f);
-                    var c = flameInitColor;
-                    c.a = flameFill;
-                    flameImage.color = c;
-                }
-            }
-            if (damageStarted && floconFill <= 0f)
-            {
-                damageStarted = false;
-                StopDamageOverTime();
             }
         }
 
@@ -221,21 +323,59 @@ public class PlayerHealth : MonoBehaviour
         {
             if (floconFill > 0f && !frostAnimationState)
             {
+                // play appear
+                frostAnimator.ResetTrigger(frostDisappearTrigger);
                 frostAnimationState = true;
                 frostAnimator.SetTrigger(frostAppearTrigger);
             }
             else if (floconFill <= 0f && frostAnimationState)
             {
+                // play disappear
+                frostAnimator.ResetTrigger(frostAppearTrigger);
                 frostAnimationState = false;
                 frostAnimator.SetTrigger(frostDisappearTrigger);
             }
         }
 
-        // Update temperature display
+        // Update temperature display with fire proximity heating
         if (temperatureText != null && temperatureChecker != null)
         {
-            float temp = temperatureChecker.GetTemperature(transform.position);
-            temperatureText.text = $"{temp:F1} °C";
+            float ambientTemp = temperatureChecker.GetTemperature(transform.position);
+            if (inHealingZone)
+                displayedTemperature = Mathf.MoveTowards(displayedTemperature, fireMaxTemperature, (fireMaxTemperature - ambientTemp) / fireTempIncreaseDuration * Time.deltaTime);
+            else
+                displayedTemperature = ambientTemp;
+            temperatureText.text = $"{displayedTemperature:F1} °C";
+        }
+
+        // Healing over time in healing zone when fully lit
+        if (inHealingZone && flameFill >= 1f)
+        {
+            if (healCoroutine == null)
+                StartHealingOverTime();
+        }
+        else
+        {
+            if (healCoroutine != null)
+                StopHealingOverTime();
+        }
+
+        // Unified Damage Over Time control based on floconFill threshold
+        if (!inHealingZone && floconFill >= 1f)
+        {
+            if (!damageStarted)
+            {
+                damageStarted = true;
+                StartDamageOverTime();
+            }
+        }
+        else
+        {
+            if (damageStarted)
+            {
+                damageStarted = false;
+                StopDamageOverTime();
+            }
         }
     }
 }

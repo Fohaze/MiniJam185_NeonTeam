@@ -25,7 +25,6 @@ public class alien_ctrl1 : MonoBehaviour
     public AnimationCurve jump_curve;
     public float fall_speed = 1f;
     public GameObject world_center;
-    public PlanetRotator planetRotator;
     public float rotate_speed = 5f;
     public GameObject world;
 
@@ -263,9 +262,8 @@ public void OnFootRight()
             //spherecast pour éviter les collisions
             //if(!Physics.SphereCast(transform.position, 0.5f, moveDir, out RaycastHit hit, 1f))
             {
-                //planetRotator.Rotate(moveInput.x, 0f, moveInput.y, rotate_speed);
-                planetRotator.Rotate(moveInput.x, 0f, moveInput.y, rotate_speed);
-                //Debug.Log("hit Object " + hit.collider.gameObject.name);
+                // Rotate planet based on input
+                world_center.transform.Rotate(new Vector3(moveInput.x, 0f, moveInput.y) * rotate_speed * Time.deltaTime, Space.World);
             }
             else
             {
@@ -273,7 +271,8 @@ public void OnFootRight()
             }
             Debug.DrawRay(transform.position, moveDir * 10f, col_, 0.1f);
         }
-        planetRotator.Rotate(0f, rotate_stick, 0f, rotate_speed_y);
+        // Rotate planet yaw based on stick
+        world_center.transform.Rotate(Vector3.up * rotate_stick * rotate_speed_y * Time.deltaTime, Space.World);
         anim.SetFloat("speed", mag);
         
         /*
