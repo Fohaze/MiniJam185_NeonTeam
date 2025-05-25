@@ -19,11 +19,24 @@ public class ShipDock : MonoBehaviour
     [Header("Détection")]
     [Tooltip("Portée de détection pour collecte")] public float detectionRange = 3f;
 
+    [Header("UI Text 3D")]
+    [Tooltip("3D Text pour BouDeBoa")] public TextMesh bouCountText;
+    [Tooltip("3D Text pour ScrappyScrappa")] public TextMesh scrappyCountText;
+    [Tooltip("3D Text pour Batterie")] public TextMesh batterieCountText;
+
     private int bouCount = 0;
     private int scrappyCount = 0;
     private int batterieCount = 0;
     // Assure qu'une seule invocation de fin de jeu
     private bool hasFinished = false;
+
+    private void Start()
+    {
+        // Initial UI
+        if (bouCountText != null) bouCountText.text = $"{bouCount}/{requiredBouDeBoa}";
+        if (scrappyCountText != null) scrappyCountText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
+        if (batterieCountText != null) batterieCountText.text = $"{batterieCount}/{requiredBatterie}";
+    }
 
     private void Update()
     {
@@ -35,18 +48,21 @@ public class ShipDock : MonoBehaviour
             if (bouCount < requiredBouDeBoa && obj.CompareTag("BouDeBoa"))
             {
                 bouCount++;
+                if (bouCountText != null) bouCountText.text = $"{bouCount}/{requiredBouDeBoa}";
                 Destroy(obj);
                 Debug.Log($"BouDeBoa détectés: {bouCount}/{requiredBouDeBoa}");
             }
             else if (scrappyCount < requiredScrappyScrappa && obj.CompareTag("ScrappyScrappa"))
             {
                 scrappyCount++;
+                if (scrappyCountText != null) scrappyCountText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
                 Destroy(obj);
                 Debug.Log($"ScrappyScrappa détectés: {scrappyCount}/{requiredScrappyScrappa}");
             }
             else if (batterieCount < requiredBatterie && obj.CompareTag("Batterie"))
             {
                 batterieCount++;
+                if (batterieCountText != null) batterieCountText.text = $"{batterieCount}/{requiredBatterie}";
                 Destroy(obj);
                 Debug.Log($"Batterie détectées: {batterieCount}/{requiredBatterie}");
             }
