@@ -49,6 +49,16 @@ public class Tourelle : MonoBehaviour
             bullet.transform.rotation = Quaternion.LookRotation((bullet.transform.position - planetCenter.transform.position).normalized, cross);
             if (Physics.Raycast(bullet.transform.position - bullet.transform.up * .25f, bullet.transform.up, out RaycastHit hit, .5f))
             {
+                var playerHealth = hit.transform.GetComponent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    //Debug.Log("Touché !!!");
+                    playerHealth.TakeDamage(20);
+                }
+                else
+                {
+                    //Debug.Log("Pas de PlayerHealth !!!");
+                }
                 Destroy(bullet);
                 _bullets.RemoveAt(i);
             }
