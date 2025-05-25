@@ -46,7 +46,7 @@ public class Harpon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        canInteract = Vector3.Distance(player.transform.position, firePosition.transform.position) < 1.5f;
+        canInteract = Vector3.Distance(player.transform.position, firePosition.transform.position) < 3f;
         uiInteract.SetActive(canInteract);
         harponCamera.gameObject.SetActive(canInteract);
 
