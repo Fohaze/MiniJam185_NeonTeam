@@ -1,108 +1,116 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-/// <summary>
-/// Gère la collecte séquentielle d'une liste d'objets (bois, métal, etc.).
-/// Affiche UI quand joueur est proche, active le modèle en main et désactive l'objet au sol.
-/// </summary>
+[System.Serializable]
+public class ItemEntry
+{
+    [Tooltip("Tag de l'objet à collecter")] public string tag;
+    [Tooltip("Objet à afficher en main")] public GameObject handObject;
+    [Tooltip("Prefab à instancier lors du drop")] public GameObject dropPrefab;
+}
+
 public class CollectItems : MonoBehaviour
 {
-    [Header("Sélection d'Objets")]
-    [Tooltip("Tags des objets à collecter")]
-    public List<string> collectTags;
-    [Tooltip("Liste des objets en main, correspondent aux Tags")]
-    public List<GameObject> handObjects;
-
+    [Header("Configuration des Items")]
+    public List<ItemEntry> itemEntries;
     [Header("UI et Interaction")]
-    [Tooltip("UI à activer quand on peut collecter")] public GameObject uiCanInteract;
-    [Tooltip("Animator du joueur pour animations de prise/pose")] public Animator anim;
-    [Tooltip("Distance max pour collecter")] public float interactionDistance = 2f;
-    [Tooltip("Touche d'interaction")] public KeyCode pickKey = KeyCode.E;
+    public GameObject uiCanInteract;
+    public Animator anim;
+    public float interactionDistance = 2f;
 
     [Header("Drop")]
-    [Tooltip("Prefabs correspondants aux objets tenus pour drop")] public List<GameObject> dropPrefabs;
-    [Tooltip("Distance devant le joueur où drop l'objet")] public float dropDistance = 1f;
-    [Tooltip("Parent sous lequel placer l'objet spawn")] public Transform dropParent;
+    public float dropDistance = 1f;
+    public Transform dropParent;
+
+    private Alien_map2 controls;
+    private GameObject nearestObject;
+    private int nearestIndex = -1;
+    private List<int> inventoryIndices = new List<int>();
+
+    void Awake()
+    {
+        controls = new Alien_map2();
+        controls.AlienMap.Interagir.performed += _ => OnInteract();
+    }
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     void Start()
     {
-        // Récupère Animator si non assigné
-        if (anim == null)
-            anim = GetComponent<Animator>();
-        // Initialise l'inventaire (désactive tout)
-        foreach (var obj in handObjects)
-            if (obj != null) obj.SetActive(false);
+        if (anim == null) anim = GetComponent<Animator>();
+        inventoryIndices.Clear();
+        UpdateHandVisuals();
         if (uiCanInteract != null) uiCanInteract.SetActive(false);
     }
 
     void Update()
     {
-        // Détection via OverlapSphere pour éviter la main
-        Collider[] hits = Physics.OverlapSphere(transform.position, interactionDistance);
-        GameObject nearest = null;
+        nearestObject = null;
+        nearestIndex = -1;
         float minDist = float.MaxValue;
+        Collider[] hits = Physics.OverlapSphere(transform.position, interactionDistance);
         foreach (var hit in hits)
         {
             var obj = hit.gameObject;
-            // ignore les objets que l'on tient
-            if (handObjects.Contains(obj)) continue;
-            if (!collectTags.Contains(obj.tag)) continue;
+            int idx = itemEntries.FindIndex(e => e.tag == obj.tag);
+            if (idx < 0) continue;
             float d = Vector3.Distance(transform.position, obj.transform.position);
             if (d < minDist)
             {
                 minDist = d;
-                nearest = obj;
+                nearestObject = obj;
+                nearestIndex = idx;
             }
         }
-        // Interactions
-        if (nearest != null)
+        if (uiCanInteract != null)
+            uiCanInteract.SetActive(nearestObject != null);
+    }
+
+    private void OnInteract()
+    {
+        if (nearestObject != null && nearestIndex >= 0 && inventoryIndices.Count < itemEntries.Count)
         {
-            if (uiCanInteract != null) uiCanInteract.SetActive(true);
-            if (Input.GetKeyDown(pickKey))
-            {
-                // Collecte selon tag
-                string t = nearest.tag;
-                int idx = collectTags.IndexOf(t);
-                if (idx >= 0 && idx < handObjects.Count)
-                {
-                    // Jouer animation de prise
-                    if (anim != null)
-                        anim.SetBool("porte", true);
-                    handObjects[idx]?.SetActive(true);
-                    Destroy(nearest);
-                }
-                if (uiCanInteract != null) uiCanInteract.SetActive(false);
-            }
+            if (anim != null) anim.SetBool("porte", true);
+            inventoryIndices.Add(nearestIndex);
+            UpdateHandVisuals();
+            Destroy(nearestObject);
+            if (uiCanInteract != null) uiCanInteract.SetActive(false);
         }
         else
         {
-            if (uiCanInteract != null) uiCanInteract.SetActive(false);
-            if (Input.GetKeyDown(pickKey)) DropHeld();
+            DropHeld();
+        }
+    }
+
+    private void UpdateHandVisuals()
+    {
+        // Désactive tous
+        foreach (var entry in itemEntries)
+            if (entry.handObject != null) entry.handObject.SetActive(false);
+        // Active selon inventaire
+        for (int i = 0; i < inventoryIndices.Count; i++)
+        {
+            int idx = inventoryIndices[i];
+            if (idx >= 0 && idx < itemEntries.Count && itemEntries[idx].handObject != null)
+                itemEntries[idx].handObject.SetActive(true);
         }
     }
 
     private void DropHeld()
     {
-        for (int i = 0; i < handObjects.Count; i++)
+        if (inventoryIndices.Count == 0) return;
+        int last = inventoryIndices[inventoryIndices.Count - 1];
+        if (anim != null) anim.SetBool("porte", false);
+        inventoryIndices.RemoveAt(inventoryIndices.Count - 1);
+        UpdateHandVisuals();
+        var entry = itemEntries[last];
+        if (entry.dropPrefab != null)
         {
-            if (handObjects[i] != null && handObjects[i].activeSelf)
-            {
-                // Jouer animation de pose
-                if (anim != null)
-                    anim.SetBool("porte", false);
-                handObjects[i].SetActive(false);
-                // Instancie le prefab correspondant à l'index
-                if (dropPrefabs != null && i < dropPrefabs.Count && dropPrefabs[i] != null)
-                {
-                    GameObject instance = Instantiate(dropPrefabs[i], transform.position + transform.forward * dropDistance, Quaternion.identity);
-                    // Assigne le même tag pour re-collecte
-                    instance.tag = collectTags[i];
-                    // Place sous le parent spécifié
-                    if (dropParent != null)
-                        instance.transform.SetParent(dropParent);
-                }
-                break;
-            }
+            var pos = transform.position + transform.forward * dropDistance;
+            GameObject inst = Instantiate(entry.dropPrefab, pos, Quaternion.identity);
+            inst.tag = entry.tag;
+            if (dropParent != null) inst.transform.SetParent(dropParent);
         }
     }
 }

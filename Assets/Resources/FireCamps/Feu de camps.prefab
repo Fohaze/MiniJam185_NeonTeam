@@ -1615,6 +1615,7 @@ MonoBehaviour:
   audioSource: {fileID: 8571178111325991654}
   soundDecrement: {fileID: 8300000, guid: 5f82435f2b5aacc47874163c01e6e557, type: 3}
   soundFull: {fileID: 0}
+  detectionRange: 1
 --- !u!82 &8571178111325991654
 AudioSource:
   m_ObjectHideFlags: 0
