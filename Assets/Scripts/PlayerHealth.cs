@@ -232,6 +232,13 @@ public class PlayerHealth : MonoBehaviour
         TakeDamage(externalDamageAmount);
     }
 
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
+        if (healthSlider != null)
+            healthSlider.value = currentHealth;
+    }
+
     private void Update()
     {
         // Compute healing zone proximity only if campfireObject is active
