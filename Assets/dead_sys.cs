@@ -23,7 +23,7 @@ public class dead_sys : MonoBehaviour
         var ph = player.GetComponent<PlayerHealth>();
         if (ph != null)
         {
-            ph.currentHealth = ph.maxHealth; // Reset player's health
+            ph.ResetHealth(); // Reset player's health
         }
         else
         {
