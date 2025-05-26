@@ -1608,14 +1608,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09efddf786a2847439e7bb7eafa6c80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireValue: 10
+  fireValue: 3
   notFullObject: {fileID: 8188371759247822755}
   fullObject: {fileID: 7043508403696223317}
   valueText: {fileID: 2506704474600510731}
   audioSource: {fileID: 8571178111325991654}
   soundDecrement: {fileID: 8300000, guid: 5f82435f2b5aacc47874163c01e6e557, type: 3}
   soundFull: {fileID: 0}
-  detectionRange: 1
+  detectionRange: 5
 --- !u!82 &8571178111325991654
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5098,7 +5098,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7856872810269726879}
-  m_Text: 10
+  m_Text: 3
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
