@@ -3696,7 +3696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &761126191
 Transform:
   m_ObjectHideFlags: 0
@@ -4296,7 +4296,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Pgm dla mort qui tue : Fohaze d''or'
+  m_Text: Fohaze d'or
 --- !u!222 &839884496
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6210,7 +6210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'L''alien qui vien de loin : lil tech now'
+  m_Text: lil tech now
 --- !u!222 &1300595478
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6467,7 +6467,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'le caca qui pue la rose des champs : Valakey'
+  m_Text: Valakey
 --- !u!222 &1330302235
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7184,7 +7184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1444603059
 Transform:
   m_ObjectHideFlags: 0
@@ -8903,10 +8903,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8329200748131258514, guid: 14ba8c5d3a452604695a638bf9f5e5c9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8897688246435448711, guid: 14ba8c5d3a452604695a638bf9f5e5c9,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2651043944635743196, guid: 14ba8c5d3a452604695a638bf9f5e5c9, type: 3}
