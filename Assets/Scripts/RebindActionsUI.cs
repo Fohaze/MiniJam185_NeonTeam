@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 public class RebindActionsUI : MonoBehaviour
 {
@@ -17,26 +18,23 @@ public class RebindActionsUI : MonoBehaviour
         public Text bindingText;
     }
 
-    [Header("Liste des bindings ‡ rebind")]
+    [Header("Liste des bindings ÔøΩ rebind")]
     public List<BindingUI> bindings;
     private string prefsKey = "rebinds";
 
-private void Awake()
-{
-    // Si on a mis ‡ jour ses bindings, on efface líancienne config
-    if (PlayerPrefs.HasKey(prefsKey))
+    private void Awake()
     {
-        Debug.Log("Clear legacy rebinding overrides");
-        PlayerPrefs.DeleteKey(prefsKey);
-        PlayerPrefs.Save();
+        // Charge les overrides enregistr√©s (ne supprime plus jamais la cl√© !)
+        var json = PlayerPrefs.GetString(prefsKey, "");
+        if (!string.IsNullOrEmpty(json))
+            bindings[0]
+              .actionReference
+              .action
+              .actionMap
+              .asset
+              .LoadBindingOverridesFromJson(json);
     }
 
-    // Puis on charge (il níy a plus rien díobsolËte)
-    var json = PlayerPrefs.GetString(prefsKey, "");
-    if (!string.IsNullOrEmpty(json))
-        bindings[0].actionReference.action.actionMap.asset
-                .LoadBindingOverridesFromJson(json);
-}
     private void Start()
     {
         foreach (var b in bindings)
@@ -55,27 +53,44 @@ private void Awake()
 
     private void UpdateBindingDisplay(BindingUI b)
     {
-        var path = b.actionReference.action.bindings[b.bindingIndex].effectivePath;
-        b.bindingText.text = InputControlPath.ToHumanReadableString(
-            path,
-            InputControlPath.HumanReadableStringOptions.OmitDevice);
+        var binding = b.actionReference.action.bindings[b.bindingIndex];
+        // Affiche le displayName du contr√¥le correspondant (clavier ou manette)
+        var control = b.actionReference.action.controls.FirstOrDefault(c => c.path == binding.effectivePath);
+        if (control != null)
+        {
+            // Si clavier -> juste la touche, sinon affiche p√©riph√©rique
+            if (control.device is UnityEngine.InputSystem.Keyboard)
+                b.bindingText.text = control.displayName;
+            else
+                b.bindingText.text = $"{control.device.displayName}: {control.displayName}";
+        }
+        else
+            b.bindingText.text = InputControlPath.ToHumanReadableString(
+                binding.effectivePath,
+                InputControlPath.HumanReadableStringOptions.OmitDevice);
     }
 
     private void StartRebind(BindingUI b)
     {
         b.rebindButton.interactable = false;
         b.bindingText.text = "Appuyez sur une touche...";
-        b.actionReference.action
-         .PerformInteractiveRebinding(b.bindingIndex)
-         .WithControlsExcluding("<Mouse>")
-         .OnComplete(operation =>
-         {
-             operation.Dispose();
-             UpdateBindingDisplay(b);
-             SaveBindings();
-             b.rebindButton.interactable = true;
-         })
-         .Start();
+        // Pr√©pare le rebind en excluant toujours la souris
+        var rebindOp = b.actionReference.action
+            .PerformInteractiveRebinding(b.bindingIndex)
+            .WithControlsExcluding("<Mouse>");
+        rebindOp.OnComplete(operation =>
+        {
+            var control = operation.selectedControl;
+            // Si clavier -> juste la touche, sinon affiche p√©riph√©rique
+            if (control.device is UnityEngine.InputSystem.Keyboard)
+                b.bindingText.text = control.displayName;
+            else
+                b.bindingText.text = $"{control.device.displayName}: {control.displayName}";
+            SaveBindings();
+            b.rebindButton.interactable = true;
+            operation.Dispose();
+        })
+        .Start();
     }
 
     private void SaveBindings()
