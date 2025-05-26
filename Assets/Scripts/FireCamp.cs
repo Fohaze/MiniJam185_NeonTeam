@@ -23,6 +23,8 @@ public class FireCamp : MonoBehaviour
     [Header("Détection")]
     [Tooltip("Distance pour détecter et consommer les objets BouDeBoa")]
     public float detectionRange = 1f;
+    [Tooltip("Rayon pour soigner le joueur près du feu de camp")]
+    public float healRadius = 5f;
 
     private const float maxValue = 10f;
 
