@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Tourelle : MonoBehaviour
 {
     public GameObject projectilePrefab;
@@ -24,6 +25,13 @@ public class Tourelle : MonoBehaviour
     [Tooltip("Multiplicateur pour rotation quand joueur détecté")]
     public float playerRotationMultiplier = 2f;
 
+    [Header("Audio Clips")]
+    public AudioClip fireClip;
+    public AudioClip detectClip;
+    public AudioClip lostClip; // Son quand le joueur n'est plus détecté
+
+    private AudioSource _audioSource;
+    private bool _hasDetectedPlayer = false;
     private float _baseProjectileSpeed;
     private float _baseRotationSpeed;
 
@@ -44,6 +52,8 @@ public class Tourelle : MonoBehaviour
         // Enregistre les vitesses de base
         _baseProjectileSpeed = projectileSpeed;
         _baseRotationSpeed = rotationSpeed;
+        // Récupère AudioSource
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -103,6 +113,18 @@ public class Tourelle : MonoBehaviour
             var ph = player.GetComponent<PlayerHealth>();
             if (ph != null && ph.InHealingZone) player = null;
         }
+        // Son lors de détection/fin de détection du joueur (une seule fois)
+        bool currentlyDetected = player != null;
+        if (currentlyDetected && !_hasDetectedPlayer)
+        {
+            _audioSource.PlayOneShot(detectClip);
+            _hasDetectedPlayer = true;
+        }
+        else if (!currentlyDetected && _hasDetectedPlayer)
+        {
+            _audioSource.PlayOneShot(lostClip);
+            _hasDetectedPlayer = false;
+        }
         if (player != null)
         {
             // Accélère quand cible présente
@@ -123,6 +145,8 @@ public class Tourelle : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, gunPoint.transform.position, gunPoint.transform.rotation);
         projectile.transform.parent = gunPoint.transform;
         _bullets.Add(projectile);
+        // Joue le son de tir
+        _audioSource.PlayOneShot(fireClip);
         _timeSinceLastFire = 0;
     }
 }
