@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 /// <summary>
 /// Gère la réception d'objets déposés autour du vaisseau.
@@ -41,10 +42,17 @@ public class ShipDock : MonoBehaviour
     private void Update()
     {
         if (hasFinished) return;
+        // Ne détecter que les tags dont les quantités ne sont pas encore atteintes
+        var tagsToDetect = new List<string>();
+        if (bouCount < requiredBouDeBoa) tagsToDetect.Add("BouDeBoa");
+        if (scrappyCount < requiredScrappyScrappa) tagsToDetect.Add("ScrappyScrappa");
+        if (batterieCount < requiredBatterie) tagsToDetect.Add("Batterie");
+        if (tagsToDetect.Count == 0) return;
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRange);
         foreach (var hit in hits)
         {
             var obj = hit.gameObject;
+            if (!tagsToDetect.Contains(obj.tag)) continue;
             if (bouCount < requiredBouDeBoa && obj.CompareTag("BouDeBoa"))
             {
                 bouCount++;

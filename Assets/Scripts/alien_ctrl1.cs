@@ -41,13 +41,21 @@ public class alien_ctrl1 : MonoBehaviour
     //séquence a faire jouer a la timeline
     public TimelineAsset director;
 
-
     public float offset_to_ground;
     public float marge_to_magnet_ground = 0.5f;
     public float current_height = 0f;
     public bool is_on_aire;
     public float sensy_dead_zone = 0.1f;
     private bool isGrounded;
+
+    [Header("Carry Impact")]
+    [Tooltip("Script de collecte pour compter les objets portés")] public CollectItems collectItems;
+    [Header("Carry Speeds")]
+    [Tooltip("Vitesse quand 0 objets portés")] public float speed0 = 15f;
+    [Tooltip("Vitesse quand 1 objet porté")] public float speed1 = 12f;
+    [Tooltip("Vitesse quand 2 objets portés")] public float speed2 = 10f;
+    [Tooltip("Vitesse quand 3 objets portés")] public float speed3 = 8f;
+    [Tooltip("Vitesse quand 4+ objets portés")] public float speed4 = 5f;
 
     public void Stop_Controlle()
     {
@@ -249,8 +257,24 @@ public void OnFootRight()
         }
     }
 
+    private void Start()
+    {
+        // Référence automatique si non assignée
+        if (collectItems == null)
+            collectItems = GetComponent<CollectItems>();
+    }
+
     private void Update()
     {
+        // Ajuste la vitesse selon le nombre d'objets portés
+        int carryCount = collectItems != null ? collectItems.InventoryCount : 0;
+        float currSpeed = carryCount == 0 ? speed0 :
+                           carryCount == 1 ? speed1 :
+                           carryCount == 2 ? speed2 :
+                           carryCount == 3 ? speed3 : speed4;
+        // On ne modifie que rotate_speed pour le mouvement
+        rotate_speed = currSpeed;
+
         // Vérifie si on est au sol
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit groundHit, marge_to_magnet_ground + offset_to_ground + 0.1f);
         // Lit la valeur Vector2 de l’action
@@ -287,8 +311,8 @@ public void OnFootRight()
             //spherecast pour éviter les collisions
             //if(!Physics.SphereCast(transform.position, 0.5f, moveDir, out RaycastHit hit, 1f))
             {
-                // Rotate planet based on input
-                world_center.transform.Rotate(new Vector3(moveInput.x, 0f, moveInput.y) * rotate_speed * Time.deltaTime, Space.World);
+                // Inversion des directions pour correspondre aux inputs
+                world_center.transform.Rotate(new Vector3(-moveInput.x, 0f, -moveInput.y) * rotate_speed * Time.deltaTime, Space.World);
             }
             else
             {
@@ -299,7 +323,8 @@ public void OnFootRight()
         // Rotate planet yaw based on stick
         if (Mathf.Abs(rotate_stick) > sensy_dead_zone)
         {
-            world_center.transform.Rotate(Vector3.up * rotate_stick * rotate_speed_y * Time.deltaTime, Space.World);
+            // Inversion du stick pour sens de rotation
+            world_center.transform.Rotate(Vector3.up * -rotate_stick * rotate_speed_y * Time.deltaTime, Space.World);
         }
         anim.SetFloat("speed", mag);
         

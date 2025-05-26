@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Linq;
 
 [System.Serializable]
 public class ItemEntry
@@ -23,10 +24,21 @@ public class CollectItems : MonoBehaviour
     public float dropDistance = 1f;
     public Transform dropParent;
 
+    [Header("Audio")]
+    [Tooltip("Source audio pour jouer le son de ramassage")]
+    public AudioSource audioSource;
+    [Tooltip("Clip de son à jouer lors du ramassage")]
+    public AudioClip pickUpClip;
+
     private Alien_map2 controls;
     private GameObject nearestObject;
     private int nearestIndex = -1;
     private List<int> inventoryIndices = new List<int>();
+
+    /// <summary>
+    /// Retourne le nombre d'objets actuellement tenus.
+    /// </summary>
+    public int InventoryCount => inventoryIndices.Count;
 
     void Awake()
     {
@@ -69,18 +81,31 @@ public class CollectItems : MonoBehaviour
 
     private void OnInteract()
     {
-        if (nearestObject != null && nearestIndex >= 0 && inventoryIndices.Count < itemEntries.Count)
+        if (nearestObject != null)
         {
-            if (anim != null) anim.SetBool("porte", true);
-            inventoryIndices.Add(nearestIndex);
-            UpdateHandVisuals();
-            Destroy(nearestObject);
-            if (uiCanInteract != null) uiCanInteract.SetActive(false);
+            // Trouve tous les indices d'entries correspondant au tag
+            var tag = nearestObject.tag;
+            var allIndices = itemEntries
+                .Select((entry, i) => new { entry.tag, i })
+                .Where(x => x.tag == tag)
+                .Select(x => x.i)
+                .ToList();
+            // Choisit le prochain index libre
+            var possible = allIndices.Except(inventoryIndices).ToList();
+            if (possible.Count > 0)
+            {
+                var idxToAdd = possible[0];
+                if (anim != null) anim.SetBool("porte", true);
+                inventoryIndices.Add(idxToAdd);
+                UpdateHandVisuals();
+                Destroy(nearestObject);
+                if (audioSource != null && pickUpClip != null) audioSource.PlayOneShot(pickUpClip);
+                if (uiCanInteract != null) uiCanInteract.SetActive(false);
+                return;
+            }
         }
-        else
-        {
-            DropHeld();
-        }
+        // Sinon lâche le dernier item
+        DropHeld();
     }
 
     private void UpdateHandVisuals()
