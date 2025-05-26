@@ -1616,6 +1616,7 @@ MonoBehaviour:
   soundDecrement: {fileID: 8300000, guid: 5f82435f2b5aacc47874163c01e6e557, type: 3}
   soundFull: {fileID: 0}
   detectionRange: 5
+  healRadius: 5
 --- !u!82 &8571178111325991654
 AudioSource:
   m_ObjectHideFlags: 0

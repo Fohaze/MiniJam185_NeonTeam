@@ -85,15 +85,29 @@ public class PlayerHealth : MonoBehaviour
     private Color frostInitColor;
     private float displayedTemperature;
 
+    [Header("Audio")]
+    [Tooltip("AudioSource pour les sons de santé")]
+    public AudioSource audioSource;
+    [Tooltip("Son à jouer quand le joueur subit des dégâts")]
+    public AudioClip damageClip;
+    [Tooltip("Son à jouer quand le joueur est soigné")]
+    public AudioClip healClip;
+
     // Healing zone proximity settings
     [Header("Healing Zone Settings")]
     [Tooltip("GameObject du feu de camp")]
     public GameObject campfireObject;
     [Tooltip("Rayon pour que le joueur soit soigné")]
-    public float healingRadius = 5f;
+    public float healRadius = 5f;
+    [Tooltip("Délai avant de commencer le soin une fois dans la zone")]
+    public float healDelay = 0f;
 
     // Healing zone
     private bool inHealingZone;
+    // Permet à d'autres scripts de savoir si le joueur est dans la zone de soin
+    public bool InHealingZone { get { return inHealingZone; } }
+    private bool _prevInHealingZone = false;
+    private float _zoneEnterTime;
     // Healing over time settings
     [Tooltip("Points de vie récupérés par tick")]
     public int healPerTick = 5;
@@ -147,6 +161,9 @@ public class PlayerHealth : MonoBehaviour
         // Init displayed temperature
         if (temperatureChecker != null)
             displayedTemperature = temperatureChecker.GetTemperature(transform.position);
+        // Initialise AudioSource si non assignée
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     public void TakeDamage(int amount)
@@ -156,6 +173,9 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= amount;
         currentHealth = Mathf.Max(currentHealth, 0);
         OnTakeDamage?.Invoke();
+        // Son de dégât
+        if (audioSource != null && damageClip != null)
+            audioSource.PlayOneShot(damageClip);
         if (healthSlider != null)
             healthSlider.value = currentHealth;
         if (currentHealth <= 0)
@@ -220,6 +240,9 @@ public class PlayerHealth : MonoBehaviour
                 currentHealth = Mathf.Min(currentHealth, maxHealth);
                 if (healthSlider != null)
                     healthSlider.value = currentHealth;
+                // Son de soin
+                if (audioSource != null && healClip != null)
+                    audioSource.PlayOneShot(healClip);
             }
             yield return new WaitForSeconds(healInterval);
         }
@@ -243,7 +266,7 @@ public class PlayerHealth : MonoBehaviour
     {
         // Compute healing zone proximity only if campfireObject is active
         if (campfireObject != null && campfireObject.activeInHierarchy)
-            inHealingZone = Vector3.Distance(transform.position, campfireObject.transform.position) <= healingRadius;
+            inHealingZone = Vector3.Distance(transform.position, campfireObject.transform.position) <= healRadius;
         else
             inHealingZone = false;
 
@@ -366,8 +389,12 @@ public class PlayerHealth : MonoBehaviour
             temperatureText.text = $"{displayedTemperature:F1} °C";
         }
 
-        // Healing over time in healing zone when fully lit
-        if (inHealingZone && flameFill >= 1f)
+        // Handle healing zone entry timing
+        if (inHealingZone && !_prevInHealingZone)
+            _zoneEnterTime = Time.time;
+        _prevInHealingZone = inHealingZone;
+        // Start or stop healing based on healDelay
+        if (inHealingZone && Time.time - _zoneEnterTime >= healDelay)
         {
             if (healCoroutine == null)
                 StartHealingOverTime();

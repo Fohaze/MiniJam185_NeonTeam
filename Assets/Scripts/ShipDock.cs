@@ -25,6 +25,12 @@ public class ShipDock : MonoBehaviour
     [Tooltip("3D Text pour ScrappyScrappa")] public TextMesh scrappyCountText;
     [Tooltip("3D Text pour Batterie")] public TextMesh batterieCountText;
 
+    [Header("Audio")]
+    [Tooltip("AudioSource pour jouer les sons du dock")]
+    public AudioSource audioSource;
+    [Tooltip("Son joué lorsqu'un objet est collecté")] public AudioClip collectClip;
+    [Tooltip("Son joué à la fin de la partie")] public AudioClip gameFinishedClip;
+
     private int bouCount = 0;
     private int scrappyCount = 0;
     private int batterieCount = 0;
@@ -37,6 +43,9 @@ public class ShipDock : MonoBehaviour
         if (bouCountText != null) bouCountText.text = $"{bouCount}/{requiredBouDeBoa}";
         if (scrappyCountText != null) scrappyCountText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
         if (batterieCountText != null) batterieCountText.text = $"{batterieCount}/{requiredBatterie}";
+        // Initialise AudioSource si non assigné
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -59,6 +68,7 @@ public class ShipDock : MonoBehaviour
                 if (bouCountText != null) bouCountText.text = $"{bouCount}/{requiredBouDeBoa}";
                 Destroy(obj);
                 Debug.Log($"BouDeBoa détectés: {bouCount}/{requiredBouDeBoa}");
+                if (audioSource != null && collectClip != null) audioSource.PlayOneShot(collectClip);
             }
             else if (scrappyCount < requiredScrappyScrappa && obj.CompareTag("ScrappyScrappa"))
             {
@@ -66,6 +76,7 @@ public class ShipDock : MonoBehaviour
                 if (scrappyCountText != null) scrappyCountText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
                 Destroy(obj);
                 Debug.Log($"ScrappyScrappa détectés: {scrappyCount}/{requiredScrappyScrappa}");
+                if (audioSource != null && collectClip != null) audioSource.PlayOneShot(collectClip);
             }
             else if (batterieCount < requiredBatterie && obj.CompareTag("Batterie"))
             {
@@ -73,6 +84,7 @@ public class ShipDock : MonoBehaviour
                 if (batterieCountText != null) batterieCountText.text = $"{batterieCount}/{requiredBatterie}";
                 Destroy(obj);
                 Debug.Log($"Batterie détectées: {batterieCount}/{requiredBatterie}");
+                if (audioSource != null && collectClip != null) audioSource.PlayOneShot(collectClip);
             }
         }
         CheckCompletion();
@@ -84,6 +96,7 @@ public class ShipDock : MonoBehaviour
         {
             hasFinished = true;
             Debug.Log("Objectifs atteints, fin de partie déclenchée !");
+            if (audioSource != null && gameFinishedClip != null) audioSource.PlayOneShot(gameFinishedClip);
             onGameFinished?.Invoke();
         }
     }
