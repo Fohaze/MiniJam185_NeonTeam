@@ -255,6 +255,16 @@ public void OnFootRight()
         {
             Debug.LogWarning("No ground detected to place the character.");
         }
+
+        if(transform.position.y < 20 || transform.position.y > 50)
+        {
+            Debug.Log("WRONG position y : " + transform.position.y);
+            transform.position = new Vector3(0, 25, 0);
+        }
+        else
+        {
+            Debug.Log("CORRECT position y : " + transform.position.y);
+        }   
     }
 
     private void Start()

@@ -47,6 +47,7 @@ public class drop_elem : MonoBehaviour
     {
         batterie_in_hand.SetActive(false);
         anim.SetBool("porte", false);
+        ui_can_take.SetActive(false);
         //détruire ce composant
         Destroy(this);
     }
