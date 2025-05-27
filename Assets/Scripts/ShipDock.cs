@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 /// <summary>
@@ -25,6 +26,11 @@ public class ShipDock : MonoBehaviour
     [Tooltip("3D Text pour ScrappyScrappa")] public TextMesh scrappyCountText;
     [Tooltip("3D Text pour Batterie")] public TextMesh batterieCountText;
 
+    [Header("UI Text Legacy")]
+    [Tooltip("UI Text pour BouDeBoa")] public Text bouUIText;
+    [Tooltip("UI Text pour ScrappyScrappa")] public Text scrappyUIText;
+    [Tooltip("UI Text pour Batterie")] public Text batterieUIText;
+
     [Header("Audio")]
     [Tooltip("AudioSource pour jouer les sons du dock")]
     public AudioSource audioSource;
@@ -43,6 +49,9 @@ public class ShipDock : MonoBehaviour
         if (bouCountText != null) bouCountText.text = $"{bouCount}/{requiredBouDeBoa}";
         if (scrappyCountText != null) scrappyCountText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
         if (batterieCountText != null) batterieCountText.text = $"{batterieCount}/{requiredBatterie}";
+        if (bouUIText != null) bouUIText.text = $"{bouCount}/{requiredBouDeBoa}";
+        if (scrappyUIText != null) scrappyUIText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
+        if (batterieUIText != null) batterieUIText.text = $"{batterieCount}/{requiredBatterie}";
         // Initialise AudioSource si non assigné
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
@@ -66,6 +75,7 @@ public class ShipDock : MonoBehaviour
             {
                 bouCount++;
                 if (bouCountText != null) bouCountText.text = $"{bouCount}/{requiredBouDeBoa}";
+                if (bouUIText != null) bouUIText.text = $"{bouCount}/{requiredBouDeBoa}";
                 Destroy(obj);
                 Debug.Log($"BouDeBoa détectés: {bouCount}/{requiredBouDeBoa}");
                 if (audioSource != null && collectClip != null) audioSource.PlayOneShot(collectClip);
@@ -74,6 +84,7 @@ public class ShipDock : MonoBehaviour
             {
                 scrappyCount++;
                 if (scrappyCountText != null) scrappyCountText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
+                if (scrappyUIText != null) scrappyUIText.text = $"{scrappyCount}/{requiredScrappyScrappa}";
                 Destroy(obj);
                 Debug.Log($"ScrappyScrappa détectés: {scrappyCount}/{requiredScrappyScrappa}");
                 if (audioSource != null && collectClip != null) audioSource.PlayOneShot(collectClip);
@@ -82,6 +93,7 @@ public class ShipDock : MonoBehaviour
             {
                 batterieCount++;
                 if (batterieCountText != null) batterieCountText.text = $"{batterieCount}/{requiredBatterie}";
+                if (batterieUIText != null) batterieUIText.text = $"{batterieCount}/{requiredBatterie}";
                 Destroy(obj);
                 Debug.Log($"Batterie détectées: {batterieCount}/{requiredBatterie}");
                 if (audioSource != null && collectClip != null) audioSource.PlayOneShot(collectClip);
